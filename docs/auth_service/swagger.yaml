@@ -1,0 +1,383 @@
+basePath: /
+definitions:
+  http.LoginRequest:
+    properties:
+      password:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - password
+    - phone_number
+    type: object
+  http.RefreshRequest:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  http.SendOTPRequest:
+    properties:
+      phone_number:
+        type: string
+      type:
+        type: string
+    required:
+    - phone_number
+    - type
+    type: object
+  http.SessionResponse:
+    properties:
+      created_at:
+        type: string
+      device_id:
+        type: string
+      device_ip:
+        type: string
+      expires_at:
+        type: string
+      os_type:
+        type: string
+      session_id:
+        type: string
+      user_agent:
+        type: string
+    type: object
+  http.SetupPasswordRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+    required:
+    - password
+    type: object
+  http.TokenResponse:
+    properties:
+      access_token:
+        type: string
+      is_new_user:
+        type: boolean
+      refresh_token:
+        type: string
+    type: object
+  http.VerifyOTPRequest:
+    properties:
+      code:
+        type: string
+      phone_number:
+        type: string
+      type:
+        description: e.g. "sms", "flashcall"
+        type: string
+    required:
+    - code
+    - phone_number
+    type: object
+host: localhost:8082
+info:
+  contact: {}
+  description: Authentication, Passwordless Login and JWT management.
+  title: Yolyolakay Auth Service API
+  version: "1.0"
+paths:
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user using phone number and password
+      parameters:
+      - description: Phone and Password
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.LoginRequest'
+      - description: Device ID
+        in: header
+        name: X-Device-ID
+        type: string
+      - description: OS Type
+        in: header
+        name: X-OS-Type
+        type: string
+      - description: User Agent
+        in: header
+        name: User-Agent
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: New device detected, OTP required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "423":
+          description: Account temporarily locked
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login with password
+      tags:
+      - Auth
+  /api/v1/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Exchanges a valid refresh token for a new pair of tokens
+      parameters:
+      - description: Refresh Token
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Refresh JWT Token
+      tags:
+      - Auth
+  /api/v1/auth/send-otp:
+    post:
+      consumes:
+      - application/json
+      description: Sends a 5-digit code to the specified phone number
+      parameters:
+      - description: Phone Number
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SendOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: User not found (for login/frgt_pswd)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: User already exists (for register)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "429":
+          description: Too Many Requests
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Send OTP via SMS
+      tags:
+      - Auth
+  /api/v1/auth/sessions:
+    get:
+      description: Retrieves all active sessions for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.SessionResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get active sessions
+      tags:
+      - Auth
+  /api/v1/auth/sessions/{device_id}:
+    delete:
+      description: Terminates a specific active session by device_id
+      parameters:
+      - description: Device ID
+        in: path
+        name: device_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Terminate session
+      tags:
+      - Auth
+  /api/v1/auth/setup-password:
+    post:
+      consumes:
+      - application/json
+      description: Sets up a password for the authenticated user to login without
+        OTP in the future
+      parameters:
+      - description: New Password
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SetupPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Setup or update password
+      tags:
+      - Auth
+  /api/v1/auth/verify-otp:
+    post:
+      consumes:
+      - application/json
+      description: Verifies the OTP and issues JWT tokens
+      parameters:
+      - description: Phone and Code
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.VerifyOTPRequest'
+      - description: Device ID
+        in: header
+        name: X-Device-ID
+        type: string
+      - description: OS Type
+        in: header
+        name: X-OS-Type
+        type: string
+      - description: User Agent
+        in: header
+        name: User-Agent
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Verify OTP and Login
+      tags:
+      - Auth
+swagger: "2.0"

@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/hextec/yolyolakay-backend/pkg/api/grpc/user";
+
+service UserService {
+  rpc CheckCarStatus (CheckCarStatusRequest) returns (CheckCarStatusResponse) {}
+  rpc GetUserLocale (GetUserLocaleRequest) returns (GetUserLocaleResponse) {}
+  rpc GetDriverVehicle (GetDriverVehicleRequest) returns (GetDriverVehicleResponse) {}
+  rpc GetDriverProfile (GetDriverProfileRequest) returns (GetDriverProfileResponse) {}
+  rpc GetPassengerProfile (GetPassengerProfileRequest) returns (GetPassengerProfileResponse) {}
+}
+
+message CheckCarStatusRequest {
+  string driver_id = 1;
+}
+
+message CheckCarStatusResponse {
+  bool is_approved = 1;
+  string error_message = 2;
+}
+
+message GetUserLocaleRequest {
+  string user_id = 1;
+}
+
+message GetUserLocaleResponse {
+  string locale = 1;
+}
+
+message GetDriverVehicleRequest {
+  string driver_id = 1;
+}
+
+message GetDriverVehicleResponse {
+  string id = 1;
+  string brand = 2;
+  string model = 3;
+  string color = 4;
+  string license_plate = 5;
+  int32 year = 6;
+  string moderation_status = 7;
+}
+
+message GetDriverProfileRequest {
+  string driver_id = 1;
+}
+
+message GetDriverProfileResponse {
+  string id = 1;
+  string name = 2;
+  string avatar_url = 3;
+  double rating = 4;
+  string gender = 5;
+  string phone_number = 6;
+  string kyc_status = 7;
+  string created_at = 8;
+  int32 rating_count = 9;
+}
+
+message GetPassengerProfileRequest {
+  string passenger_id = 1;
+}
+
+message GetPassengerProfileResponse {
+  string id = 1;
+  string name = 2;
+  string avatar_url = 3;
+  double rating = 4;
+  string phone_number = 5;
+  string kyc_status = 6;
+  string created_at = 7;
+}
+
+
+

@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS user_documents;
+DROP TABLE IF EXISTS vehicles;
+DROP TABLE IF EXISTS users;
+DROP EXTENSION IF EXISTS "uuid-ossp";

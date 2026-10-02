@@ -1,0 +1,56 @@
+linters-settings:
+  govet:
+    enable-all: true
+    disable:
+      - fieldalignment
+  golint:
+    min-confidence: 0.8
+  gocyclo:
+    min-complexity: 15
+  maligned:
+    suggest-new: true
+  dupl:
+    threshold: 100
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  depguard:
+    list-type: blacklist
+    packages:
+      - github.com/sirupsen/logrus
+  misspell:
+    locale: US
+  lll:
+    line-length: 120
+  goimports:
+    local-prefixes: github.com/hextec/yolyolakay-backend
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - dupImport
+      - ifElseChain
+      - octalLiteral
+      - whyNoLint
+
+linters:
+  disable-all: true
+  enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - ineffassign
+    - typecheck
+    - unused
+    - gosimple
+    - goimports
+    - misspell
+    - gofmt
+
+run:
+  timeout: 5m
+  tests: false # Don't lint test files for now to speed up CI

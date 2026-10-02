@@ -1,0 +1,123 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "DWH \u0026 BI Analytics service for Yolyolakay",
+        "title": "Analytics Service API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8091",
+    "basePath": "/",
+    "paths": {
+        "/api/v1/analytics/events": {
+            "post": {
+                "description": "Logs telemetry data/event into the Data Lake",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "Log a new analytics event",
+                "parameters": [
+                    {
+                        "description": "Event Details",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/http.logEventRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/analytics/stats": {
+            "get": {
+                "description": "Retrieves aggregated event counts for the BI Dashboard",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "Get event statistics",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/http.EventStatsResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "http.EventStatsResponse": {
+            "type": "object",
+            "properties": {
+                "event_count": {
+                    "type": "integer"
+                },
+                "event_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "http.logEventRequest": {
+            "type": "object",
+            "required": [
+                "event_type"
+            ],
+            "properties": {
+                "event_type": {
+                    "type": "string"
+                },
+                "payload": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

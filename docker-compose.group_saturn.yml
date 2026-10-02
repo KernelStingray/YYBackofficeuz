@@ -1,0 +1,494 @@
+x-go-service: &go-service
+  build:
+    context: .
+    dockerfile: Dockerfile
+  restart: unless-stopped
+  env_file:
+    - .env
+  volumes:
+    - ./.env:/root/configs/.env:ro
+  extra_hosts:
+    - "group_jupiter:host-gateway"
+    - "auth_service:host-gateway"
+    - "user_service:host-gateway"
+  networks:
+    - vpn_network
+
+services:
+  group_saturn:
+    image: postgis/postgis:15-3.3-alpine
+    container_name: group_saturn
+    environment:
+      POSTGRES_USER: KernelStingray
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-KeRSt!n90$8!}
+      POSTGRES_DB: group_saturn
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres_b_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U KernelStingray -d group_saturn" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - vpn_network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15673:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vpn_network
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    network_mode: "host"
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - api_gateway
+
+  api_gateway:
+    <<: *go-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: api_gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASS=${REDIS_PASS:-KeRSt!n90$8!}
+      - AUTH_SERVICE_URL=http://auth_service:8081
+      - USER_SERVICE_URL=http://user_service:8082
+      - PARCEL_SERVICE_URL=http://parcel_service:8085
+      - TELEMATICS_SERVICE_URL=http://telematics_service:8087
+      - BILLING_SERVICE_URL=http://billing_service:8084
+      - RIDE_SERVICE_URL=http://ride_service:8083
+      - NOTIFICATION_SERVICE_URL=http://notification_service:8086
+      - ROUTING_SERVICE_URL=http://routing_service:8088
+      - FRAUD_SERVICE_URL=http://antifraud_service:8089
+      - HELPDESK_SERVICE_URL=http://helpdesk_service:8090
+      - ANALYTICS_SERVICE_URL=http://analytics_service:8091
+      - BACKOFFICE_SERVICE_URL=http://backoffice_service:8092
+      - MEDIA_SERVICE_URL=http://media_service:8093
+      - RATING_SERVICE_URL=http://rating_service:8094
+
+    depends_on:
+      - parcel_service
+      - telematics_service
+      - billing_service
+      - ride_service
+      - notification_service
+      - routing_service
+      - helpdesk_service
+      - analytics_service
+      - antifraud_service
+      - backoffice_service
+      - media_service
+      - rating_service
+
+  parcel_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: parcel_service
+    environment:
+      - PORT=8085
+      - DB_B_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_saturn:5432/romanova?sslmode=disable
+      - PARCEL_ENCRYPTION_KEY=${PARCEL_ENCRYPTION_KEY:-0123456789abcdef0123456789abcdef}
+
+  telematics_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: telematics_service
+    environment:
+      - PORT=8087
+      - DB_B_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_saturn:5432/pascal?sslmode=disable
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASS=${REDIS_PASS:-KeRSt!n90$8!}
+
+  billing_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: billing_service
+    environment:
+      - PORT=8084
+      - DB_C_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_saturn:5432/girard?sslmode=disable
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASS=${REDIS_PASS:-KeRSt!n90$8!}
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-StingrayRab}:${RABBITMQ_PASS:-KeRSt!n90$8!}@rabbitmq:5672/
+      - WEBHOOK_ALLOWED_IPS=${WEBHOOK_ALLOWED_IPS}
+
+  ride_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: ride_service
+    environment:
+      - PORT=8083
+      - DB_B_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_saturn:5432/senna?sslmode=disable
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASS=${REDIS_PASS:-KeRSt!n90$8!}
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-StingrayRab}:${RABBITMQ_PASS:-KeRSt!n90$8!}@rabbitmq:5672/
+      - WEBHOOK_ALLOWED_IPS=${WEBHOOK_ALLOWED_IPS}
+
+  notification_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: notification_service
+    environment:
+      - PORT=8086
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASS=${REDIS_PASS:-KeRSt!n90$8!}
+      - DB_A_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_jupiter:5432/burunov?sslmode=disable
+    volumes:
+      - ./.env:/root/configs/.env:ro
+      - ./configs/secrets/yolyolakay-3310f-firebase-adminsdk-fbsvc-b4053bed72.json:/root/serviceAccountKey.json:ro
+
+  routing_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: routing_service
+    environment:
+      - PORT=8088
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASS=${REDIS_PASS:-KeRSt!n90$8!}
+      - OSRM_URL=http://osrm:5000
+      - PHOTON_URL=http://photon:2322
+    depends_on:
+      - osrm
+      - photon
+
+  osrm:
+    image: osrm/osrm-backend:latest
+    container_name: osrm
+    restart: unless-stopped
+    command: osrm-routed --algorithm mld /data/uzbekistan-latest.osrm
+    volumes:
+      - ./data/osm:/data:ro
+    ports:
+      - "5000:5000"
+    networks:
+      - vpn_network
+
+  photon:
+    image: elestio/photon:latest
+    container_name: photon
+    restart: unless-stopped
+    volumes:
+      - ./data/photon:/photon/photon_data
+    ports:
+      - "2322:2322"
+    networks:
+      - vpn_network
+
+  helpdesk_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: helpdesk_service
+    environment:
+      - PORT=8090
+      - DB_A_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_jupiter:5432/spidy?sslmode=disable
+
+  analytics_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: analytics_service
+    environment:
+      - PORT=8091
+      - DB_B_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_saturn:5432/shennon?sslmode=disable
+
+  antifraud_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: antifraud_service
+    environment:
+      - PORT=8089
+      - DB_A_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_jupiter:5432/ford?sslmode=disable
+
+  backoffice_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: backoffice_service
+    environment:
+      - PORT=8092
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASS=${REDIS_PASS:-KeRSt!n90$8!}
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-StingrayRab}:${RABBITMQ_PASS:-KeRSt!n90$8!}@rabbitmq:5672/
+      - DB_A_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_jupiter:5432/kibertron?sslmode=disable
+
+  media_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: media_service
+    environment:
+      - PORT=8093
+      - S3_ENDPOINT=minio:9000
+      - S3_ACCESS_KEY=${MINIO_ROOT_USER:-StingrayMin}
+      - S3_SECRET_KEY=${MINIO_ROOT_PASSWORD:-KeRSt!n90$8!}
+      - S3_BUCKET_NAME=yolyolakay-media
+      - DB_A_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_jupiter:5432/gobliddin?sslmode=disable
+    depends_on:
+      - minio
+
+  controlling_frontend:
+    build:
+      context: ./controlling
+    container_name: controlling_frontend
+    ports:
+      - "3001:80"
+    restart: unless-stopped
+    networks:
+      - vpn_network
+
+  yyweb_frontend:
+    profiles:
+      - optional
+    build:
+      context: ./YYWeb
+      dockerfile: Dockerfile
+    container_name: yyweb_frontend
+    ports:
+      - "${YYWEB_PORT:-3002}:3000"
+    environment:
+      - PORT=3000
+      - BACKEND_URL=http://api_gateway:8080
+      - NEXT_PUBLIC_API_URL=/api-proxy
+      - NEXT_PUBLIC_WS_URL=wss://api.yolyolakay.com/ws
+      - NEXT_PUBLIC_SITE_URL=https://app.yolyolakay.com
+    restart: unless-stopped
+    depends_on:
+      - api_gateway
+    networks:
+      - vpn_network
+
+  rating_service:
+    <<: *go-service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: rating_service
+    environment:
+      - PORT=8094
+      - DB_B_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_saturn:5432/caprio?sslmode=disable
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-StingrayRab}:${RABBITMQ_PASS:-KeRSt!n90$8!}@rabbitmq:5672/
+      - RIDE_GRPC_URL=ride_service:50053
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vpn_network
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 '${MINIO_ROOT_USER}' '${MINIO_ROOT_PASSWORD}';
+      /usr/bin/mc mb myminio/yolyolakay-media || true;
+      /usr/bin/mc anonymous set download myminio/yolyolakay-media || true;
+      exit 0;
+      "
+    networks:
+      - vpn_network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deployments/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-StingrayGraf}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-KeRSt!n90$8!}
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+
+  loki:
+    image: grafana/loki:2.9.2
+    container_name: loki
+    user: "0:0"
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./deployments/monitoring/loki-config.yml:/etc/loki/local-config.yaml
+      - loki_data:/tmp/loki
+    restart: unless-stopped
+    networks:
+      - default
+      - vpn_network
+
+  promtail:
+    image: grafana/promtail:2.9.2
+    container_name: promtail
+    volumes:
+      - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./deployments/monitoring/promtail-config.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    restart: unless-stopped
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    ports:
+      - "16686:16686" # UI
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    command: redis-server --requirepass ${REDIS_PASS:-KeRSt!n90$8!}
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASS:-KeRSt!n90$8!}", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vpn_network
+
+  backup_cron_b:
+    image: alpine:latest
+    container_name: backup_cron_b
+    depends_on:
+      group_saturn:
+        condition: service_healthy
+    volumes:
+      - ./scripts/backup.sh:/scripts/backup.sh
+    environment:
+      - PGHOST=group_saturn
+      - PGUSER=KernelStingray
+      - PGPASSWORD=${POSTGRES_PASSWORD:-KeRSt!n90$8!}
+      - PGDATABASE=all
+      - S3_BUCKET=${S3_BUCKET:-s3://yolyolakay-backups/}
+      - AWS_ACCESS_KEY_ID=${S3_ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${S3_SECRET_KEY}
+      - AWS_ENDPOINT_URL=${S3_ENDPOINT}
+      - BACKUP_ENCRYPTION_KEY=${BACKUP_ENCRYPT_PASSWORD}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+    entrypoint: >
+      /bin/sh -c " apk add --no-cache postgresql-client aws-cli openssl && echo '0 3 * * * /scripts/backup.sh' > /etc/crontabs/root && crond -f -d 8 "
+    networks:
+      - vpn_network
+
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "root"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+      VAULT_ADDR: "http://127.0.0.1:8200"
+    ports:
+      - "127.0.0.1:8200:8200"
+    networks:
+      - vpn_network
+    healthcheck:
+      test: [ "CMD", "vault", "status" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  vault_init:
+    build:
+      context: ./cmd/vault_init
+    container_name: vault_init
+    restart: "on-failure"
+    environment:
+      VAULT_ADDR: "http://vault:8200"
+      VAULT_TOKEN: "root"
+    networks:
+      - vpn_network
+    depends_on:
+      vault:
+        condition: service_healthy
+volumes:
+  rabbitmq_data:
+  grafana_data:
+  loki_data:
+  redis_data:
+  minio_data:
+  postgres_b_data:
+
+networks:
+  vpn_network:
+    external: true

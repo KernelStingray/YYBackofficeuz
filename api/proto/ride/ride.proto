@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package ride;
+
+option go_package = "github.com/hextec/yolyolakay-backend/pkg/api/grpc/ride;ridepb";
+
+service RideService {
+  rpc GetRideByID(GetRideByIDRequest) returns (GetRideByIDResponse);
+}
+
+message GetRideByIDRequest {
+  string ride_id = 1;
+}
+
+message GetRideByIDResponse {
+  string id = 1;
+  string driver_id = 2;
+  string status = 3;
+}

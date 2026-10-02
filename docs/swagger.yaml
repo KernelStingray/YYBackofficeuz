@@ -1,0 +1,5297 @@
+basePath: /
+definitions:
+  domain.Admin:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      login:
+        type: string
+      role:
+        type: string
+    type: object
+  domain.AdminStats:
+    properties:
+      chart_data:
+        items:
+          $ref: '#/definitions/domain.ChartDataPoint'
+        type: array
+      total_revenue:
+        type: number
+    type: object
+  domain.ChartDataPoint:
+    properties:
+      amount:
+        type: number
+      date:
+        type: string
+    type: object
+  domain.Feedback:
+    properties:
+      comment:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      reviewee_id:
+        description: User who receives the rating
+        type: string
+      reviewer_id:
+        description: User who gives the rating
+        type: string
+      ride_id:
+        type: string
+      score:
+        description: 1 to 5
+        type: integer
+      tags:
+        items:
+          type: string
+        type: array
+    type: object
+  domain.Location:
+    properties:
+      driver_id:
+        type: string
+      heading:
+        type: number
+      latitude:
+        type: number
+      longitude:
+        type: number
+      speed:
+        type: number
+      timestamp:
+        type: string
+    type: object
+  domain.Media:
+    properties:
+      content_type:
+        type: string
+      id:
+        type: string
+      size:
+        type: integer
+      url:
+        type: string
+    type: object
+  domain.Message:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      receiver_id:
+        type: string
+      reply_to_id:
+        type: string
+      ride_id:
+        type: string
+      sender_id:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  domain.NearbyDriver:
+    properties:
+      distance:
+        description: in meters
+        type: number
+      driver_id:
+        type: string
+      heading:
+        type: number
+      latitude:
+        type: number
+      longitude:
+        type: number
+      speed:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  domain.PassengerProfile:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      kyc_status:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      rating:
+        type: number
+    type: object
+  domain.Route:
+    properties:
+      distance:
+        description: in meters
+        type: number
+      duration:
+        description: in seconds
+        type: number
+    type: object
+  domain.Ticket:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      resolution:
+        type: string
+      status:
+        type: string
+      subject:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  domain.UserParcelStats:
+    properties:
+      total_delivered:
+        description: driver role
+        type: integer
+      total_sent:
+        type: integer
+    type: object
+  http.AddPaymentMethodRequest:
+    properties:
+      masked_pan:
+        type: string
+      provider:
+        type: string
+      token:
+        type: string
+    required:
+    - masked_pan
+    - provider
+    - token
+    type: object
+  http.AdminStats:
+    properties:
+      chart_data:
+        items:
+          $ref: '#/definitions/http.ChartDataPoint'
+        type: array
+      drivers_count:
+        type: integer
+      passengers_count:
+        type: integer
+      total_users:
+        type: integer
+    type: object
+  http.AdminStatsResponse:
+    properties:
+      active_rides:
+        type: integer
+      cancelled_rides:
+        type: integer
+      completed_rides:
+        type: integer
+      total_bookings:
+        type: integer
+      total_revenue:
+        type: number
+      total_rides:
+        type: integer
+    type: object
+  http.BookRideRequest:
+    properties:
+      dropoff_type:
+        maxLength: 20
+        type: string
+      is_full_car_buyout:
+        type: boolean
+      offered_price:
+        type: number
+      pickup_preference:
+        maxLength: 250
+        type: string
+      seats:
+        type: integer
+    type: object
+  http.BookingResponse:
+    properties:
+      created_at:
+        type: string
+      dropoff_type:
+        type: string
+      id:
+        type: string
+      is_full_car_buyout:
+        type: boolean
+      offered_price:
+        type: number
+      passenger:
+        $ref: '#/definitions/domain.PassengerProfile'
+      passenger_id:
+        type: string
+      pickup_preference:
+        type: string
+      ride:
+        $ref: '#/definitions/http.RideSearchResponse'
+      ride_id:
+        type: string
+      seats_booked:
+        type: integer
+      status:
+        type: string
+      total_price:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  http.CancelBookingRequest:
+    properties:
+      reason:
+        type: string
+    type: object
+  http.CancelRideRequest:
+    properties:
+      reason:
+        type: string
+    type: object
+  http.Car:
+    properties:
+      brand:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      driver_license_photo:
+        type: string
+      gov_number:
+        type: string
+      id:
+        type: string
+      model:
+        type: string
+      moderation_status:
+        type: string
+      tech_passport_photo:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  http.ChartDataPoint:
+    properties:
+      count:
+        type: integer
+      date:
+        type: string
+    type: object
+  http.CityStats:
+    properties:
+      city:
+        type: string
+      lat:
+        type: number
+      lon:
+        type: number
+    type: object
+  http.CounterBookingRequest:
+    properties:
+      new_price:
+        type: number
+    required:
+    - new_price
+    type: object
+  http.CreateCarRequest:
+    properties:
+      brand:
+        maxLength: 50
+        type: string
+      car_back_photo:
+        type: string
+      car_front_photo:
+        type: string
+      car_side_photo:
+        type: string
+      color:
+        maxLength: 50
+        type: string
+      driver_license_back:
+        type: string
+      driver_license_front:
+        type: string
+      driver_license_photo:
+        type: string
+      gov_number:
+        maxLength: 20
+        type: string
+      model:
+        maxLength: 50
+        type: string
+      tech_passport_back:
+        type: string
+      tech_passport_front:
+        type: string
+      tech_passport_photo:
+        type: string
+      year:
+        type: integer
+    required:
+    - brand
+    - gov_number
+    - model
+    type: object
+  http.CreateRouteSubscriptionRequest:
+    properties:
+      departure_date:
+        type: string
+      dest_lat:
+        type: number
+      dest_lon:
+        type: number
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+    required:
+    - dest_lat
+    - dest_lon
+    - origin_lat
+    - origin_lon
+    type: object
+  http.DriverLocationResponse:
+    properties:
+      driver_id:
+        type: string
+      heading:
+        type: number
+      latitude:
+        type: number
+      longitude:
+        type: number
+      speed:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  http.DriverProfile:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      kyc_status:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      phone_number:
+        type: string
+      rating:
+        type: number
+      rating_count:
+        type: integer
+    type: object
+  http.DriverStatisticsResponse:
+    properties:
+      cancelled_rides:
+        type: integer
+      completed_rides:
+        type: integer
+      total_earnings:
+        type: number
+      total_rides:
+        type: integer
+    type: object
+  http.ETAResponse:
+    properties:
+      eta_minutes:
+        type: integer
+      eta_seconds:
+        type: integer
+    type: object
+  http.EventStatsResponse:
+    properties:
+      event_count:
+        type: integer
+      event_type:
+        type: string
+    type: object
+  http.FeedbackItemDTO:
+    properties:
+      comment:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      reviewer:
+        $ref: '#/definitions/http.ReviewerProfileDTO'
+      ride_id:
+        type: string
+      score:
+        type: integer
+      tags:
+        items:
+          type: string
+        type: array
+    type: object
+  http.FeedbackListResponse:
+    properties:
+      average:
+        type: number
+      items:
+        items:
+          $ref: '#/definitions/http.FeedbackItemDTO'
+        type: array
+      tag_summary:
+        additionalProperties:
+          type: integer
+        type: object
+      total:
+        type: integer
+    type: object
+  http.GiftInjectRequest:
+    properties:
+      quota:
+        type: integer
+    required:
+    - quota
+    type: object
+  http.LocationResponse:
+    properties:
+      driver_id:
+        type: string
+      heading:
+        type: number
+      latitude:
+        type: number
+      longitude:
+        type: number
+      speed:
+        type: number
+      timestamp:
+        type: string
+    type: object
+  http.LoginRequest:
+    properties:
+      password:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - password
+    - phone_number
+    type: object
+  http.Parcel:
+    properties:
+      created_at:
+        type: string
+      deliver_by:
+        type: string
+      description:
+        type: string
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      driver_id:
+        type: string
+      dropoff_type:
+        type: string
+      from_address:
+        type: string
+      id:
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      price:
+        type: number
+      receiver_name:
+        type: string
+      receiver_phone:
+        type: string
+      responses_count:
+        type: integer
+      sender_id:
+        type: string
+      sender_name:
+        type: string
+      sender_rating:
+        type: number
+      size:
+        type: string
+      status:
+        type: string
+      to_address:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  http.ParcelResponse:
+    properties:
+      created_at:
+        type: string
+      driver_id:
+        type: string
+      id:
+        type: string
+      offered_price:
+        type: number
+      parcel_id:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  http.ParcelResponseDTO:
+    properties:
+      created_at:
+        type: string
+      driver_avatar:
+        type: string
+      driver_id:
+        type: string
+      driver_name:
+        type: string
+      driver_rating:
+        type: number
+      id:
+        type: string
+      offered_price:
+        type: number
+      parcel_id:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  http.PublicCarProfile:
+    properties:
+      brand:
+        type: string
+      car_photos:
+        items:
+          type: string
+        type: array
+      color:
+        type: string
+      gov_number:
+        type: string
+      id:
+        type: string
+      model:
+        type: string
+      year:
+        type: integer
+    type: object
+  http.PublicUserProfile:
+    properties:
+      avatar_url:
+        type: string
+      created_at:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      kyc_rejection_reason:
+        type: string
+      kyc_status:
+        type: string
+      last_name:
+        type: string
+      rating:
+        type: number
+      rating_count:
+        type: integer
+      role:
+        type: string
+    type: object
+  http.PublishRideRequest:
+    properties:
+      allows_city_detour:
+        type: boolean
+      city_detour_fee:
+        type: number
+      departure_time:
+        description: RFC3339 format
+        maxLength: 50
+        type: string
+      destination_address:
+        maxLength: 255
+        type: string
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      driving_speed:
+        maxLength: 20
+        type: string
+      gender_restriction:
+        maxLength: 20
+        type: string
+      has_ac:
+        type: boolean
+      has_luggage:
+        type: boolean
+      is_negotiable:
+        type: boolean
+      max_two_back:
+        type: boolean
+      music_taste:
+        maxLength: 100
+        type: string
+      no_pets:
+        type: boolean
+      no_smoking:
+        type: boolean
+      origin_address:
+        maxLength: 255
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      pickup_point:
+        maxLength: 255
+        type: string
+      price_per_seat:
+        maximum: 10000000
+        type: number
+      stops:
+        items:
+          $ref: '#/definitions/http.RideStopRequest'
+        type: array
+      takes_parcels:
+        type: boolean
+      total_seats:
+        maximum: 8
+        type: integer
+      vehicle_id:
+        type: string
+    required:
+    - departure_time
+    - destination_address
+    - destination_lat
+    - destination_lon
+    - origin_address
+    - origin_lat
+    - origin_lon
+    - price_per_seat
+    - total_seats
+    - vehicle_id
+    type: object
+  http.RecommendationsResponse:
+    properties:
+      by_your_routes:
+        items:
+          $ref: '#/definitions/http.RouteStats'
+        type: array
+      new_directions:
+        items:
+          $ref: '#/definitions/http.CityStats'
+        type: array
+      popular:
+        items:
+          $ref: '#/definitions/http.RouteStats'
+        type: array
+    type: object
+  http.RefreshRequest:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  http.RegisterPassengerRequest:
+    properties:
+      first_name:
+        maxLength: 50
+        minLength: 2
+        type: string
+      gender:
+        type: string
+      last_name:
+        maxLength: 50
+        minLength: 2
+        type: string
+      phone_number:
+        description: e164 validates international phone format like +998901234567
+        type: string
+    required:
+    - first_name
+    - last_name
+    - phone_number
+    type: object
+  http.RejectKYCRequest:
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+    type: object
+  http.ReviewerProfileDTO:
+    properties:
+      avatar:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  http.RideResponse:
+    properties:
+      allows_city_detour:
+        type: boolean
+      available_seats:
+        type: integer
+      car:
+        $ref: '#/definitions/http.Vehicle'
+      city_detour_fee:
+        type: number
+      created_at:
+        type: string
+      departure_time:
+        type: string
+      destination_address:
+        type: string
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      driver:
+        $ref: '#/definitions/http.DriverProfile'
+      driver_id:
+        type: string
+      driving_speed:
+        type: string
+      gender_restriction:
+        type: string
+      has_ac:
+        type: boolean
+      has_fair_price_badge:
+        type: boolean
+      has_luggage:
+        type: boolean
+      id:
+        type: string
+      is_negotiable:
+        type: boolean
+      max_two_back:
+        type: boolean
+      music_taste:
+        type: string
+      no_pets:
+        type: boolean
+      no_smoking:
+        type: boolean
+      origin_address:
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      passengers:
+        items:
+          $ref: '#/definitions/domain.PassengerProfile'
+        type: array
+      pickup_point:
+        type: string
+      price_per_seat:
+        type: number
+      status:
+        type: string
+      stops:
+        items:
+          $ref: '#/definitions/http.RideStop'
+        type: array
+      takes_parcels:
+        type: boolean
+      total_seats:
+        type: integer
+      updated_at:
+        type: string
+      vehicle_id:
+        type: string
+    type: object
+  http.RideSearchResponse:
+    properties:
+      allows_city_detour:
+        type: boolean
+      available_seats:
+        type: integer
+      car:
+        $ref: '#/definitions/http.Vehicle'
+      city_detour_fee:
+        type: number
+      departure_time:
+        type: string
+      destination_address:
+        type: string
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      driver:
+        $ref: '#/definitions/http.DriverProfile'
+      driving_speed:
+        type: string
+      gender_restriction:
+        type: string
+      has_ac:
+        type: boolean
+      has_fair_price_badge:
+        type: boolean
+      has_luggage:
+        type: boolean
+      id:
+        type: string
+      is_negotiable:
+        type: boolean
+      max_two_back:
+        type: boolean
+      music_taste:
+        type: string
+      no_pets:
+        type: boolean
+      no_smoking:
+        type: boolean
+      origin_address:
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      pickup_point:
+        type: string
+      price_per_seat:
+        type: number
+      status:
+        type: string
+      stops:
+        items:
+          $ref: '#/definitions/http.RideStop'
+        type: array
+      takes_parcels:
+        type: boolean
+      total_seats:
+        type: integer
+    type: object
+  http.RideStop:
+    properties:
+      address:
+        type: string
+      id:
+        type: string
+      lat:
+        type: number
+      lon:
+        type: number
+      order_index:
+        type: integer
+      ride_id:
+        type: string
+    type: object
+  http.RideStopRequest:
+    properties:
+      address:
+        maxLength: 255
+        type: string
+      lat:
+        type: number
+      lon:
+        type: number
+    required:
+    - address
+    - lat
+    - lon
+    type: object
+  http.RouteStats:
+    properties:
+      from:
+        type: string
+      to:
+        type: string
+      trips_count:
+        type: integer
+    type: object
+  http.RouteSubscriptionResponse:
+    properties:
+      created_at:
+        type: string
+      departure_date:
+        type: string
+      dest_lat:
+        type: number
+      dest_lon:
+        type: number
+      id:
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      passenger_id:
+        type: string
+    type: object
+  http.SearchRidesResponse:
+    properties:
+      rides:
+        items:
+          $ref: '#/definitions/http.RideSearchResponse'
+        type: array
+    type: object
+  http.SendOTPRequest:
+    properties:
+      phone_number:
+        type: string
+      type:
+        type: string
+    required:
+    - phone_number
+    - type
+    type: object
+  http.SessionResponse:
+    properties:
+      created_at:
+        type: string
+      device_id:
+        type: string
+      device_ip:
+        type: string
+      expires_at:
+        type: string
+      os_type:
+        type: string
+      session_id:
+        type: string
+      user_agent:
+        type: string
+    type: object
+  http.SetupPasswordRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+    required:
+    - password
+    type: object
+  http.SubmitFeedbackRequest:
+    properties:
+      comment:
+        type: string
+      reviewee_id:
+        type: string
+      ride_id:
+        type: string
+      score:
+        maximum: 5
+        minimum: 1
+        type: integer
+      tags:
+        items:
+          type: string
+        type: array
+    required:
+    - reviewee_id
+    - ride_id
+    - score
+    type: object
+  http.SubscribeDriverRequest:
+    properties:
+      payment_token_id:
+        type: string
+      plan_key:
+        type: string
+      plan_name:
+        type: string
+      promo_code:
+        type: string
+      return_url:
+        type: string
+    type: object
+  http.SubscriptionResponse:
+    properties:
+      created_at:
+        type: string
+      end_date:
+        type: string
+      free_parcels_quota:
+        type: integer
+      has_used_trial:
+        type: boolean
+      id:
+        type: string
+      plan_key:
+        type: string
+      plan_name:
+        type: string
+      rides_left:
+        type: integer
+      start_date:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  http.TokenResponse:
+    properties:
+      access_token:
+        type: string
+      is_new_user:
+        type: boolean
+      refresh_token:
+        type: string
+    type: object
+  http.TrustScoreResponse:
+    properties:
+      score:
+        type: number
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  http.UpdateCarRequest:
+    properties:
+      brand:
+        type: string
+      color:
+        type: string
+      gov_number:
+        type: string
+      model:
+        type: string
+      year:
+        type: integer
+    type: object
+  http.UpdateProfileRequest:
+    properties:
+      avatar_url:
+        type: string
+      first_name:
+        maxLength: 50
+        type: string
+      gender:
+        type: string
+      last_name:
+        maxLength: 50
+        type: string
+      locale:
+        type: string
+    type: object
+  http.UpgradeToDriverRequest:
+    properties:
+      avatar_url:
+        type: string
+      brand:
+        maxLength: 50
+        type: string
+      car_back_photo:
+        type: string
+      car_front_photo:
+        type: string
+      car_side_photo:
+        type: string
+      color:
+        maxLength: 50
+        type: string
+      driver_license_back:
+        type: string
+      driver_license_front:
+        type: string
+      driver_license_photo:
+        type: string
+      gov_number:
+        maxLength: 20
+        type: string
+      model:
+        maxLength: 50
+        type: string
+      tech_passport_back:
+        type: string
+      tech_passport_front:
+        type: string
+      tech_passport_photo:
+        type: string
+      year:
+        type: integer
+    required:
+    - brand
+    - gov_number
+    - model
+    type: object
+  http.User:
+    properties:
+      avatar_url:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      kyc_rejection_reason:
+        type: string
+      kyc_status:
+        type: string
+      last_name:
+        type: string
+      locale:
+        type: string
+      phone_number:
+        type: string
+      rating:
+        type: number
+      rating_count:
+        type: integer
+      role:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  http.UserProfileResponse:
+    properties:
+      cars:
+        items:
+          $ref: '#/definitions/http.PublicCarProfile'
+        type: array
+      user:
+        $ref: '#/definitions/http.PublicUserProfile'
+    type: object
+  http.UserRideStatsResponse:
+    properties:
+      rating_as_driver:
+        type: number
+      rating_as_passenger:
+        type: number
+      total_rides_as_driver:
+        type: integer
+      total_rides_as_passenger:
+        type: integer
+    type: object
+  http.Vehicle:
+    properties:
+      brand:
+        type: string
+      color:
+        type: string
+      id:
+        type: string
+      license_plate:
+        type: string
+      model:
+        type: string
+      moderation_status:
+        type: string
+      year:
+        type: integer
+    type: object
+  http.VerifyOTPRequest:
+    properties:
+      code:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      type:
+        description: e.g. "sms", "flashcall"
+        type: string
+    required:
+    - code
+    - phone_number
+    type: object
+  http.chatResponse:
+    properties:
+      last_message:
+        $ref: '#/definitions/domain.Message'
+      partner_id:
+        type: string
+      unread_count:
+        type: integer
+    type: object
+  http.createParcelRequest:
+    properties:
+      deliver_by:
+        description: ISO8601 string
+        maxLength: 50
+        type: string
+      description:
+        maxLength: 500
+        type: string
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      dropoff_type:
+        maxLength: 20
+        type: string
+      from_address:
+        maxLength: 255
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      price:
+        maximum: 100000000
+        type: number
+      receiver_name:
+        maxLength: 100
+        type: string
+      receiver_phone:
+        maxLength: 20
+        type: string
+      size:
+        maxLength: 50
+        type: string
+      to_address:
+        maxLength: 255
+        type: string
+    required:
+    - destination_lat
+    - destination_lon
+    - from_address
+    - origin_lat
+    - origin_lon
+    - price
+    - receiver_phone
+    - to_address
+    type: object
+  http.createTicketRequest:
+    properties:
+      description:
+        type: string
+      subject:
+        type: string
+    required:
+    - description
+    - subject
+    type: object
+  http.logEventRequest:
+    properties:
+      event_type:
+        type: string
+      payload:
+        additionalProperties: true
+        type: object
+      user_id:
+        type: string
+    required:
+    - event_type
+    type: object
+  http.loginRequest:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    required:
+    - login
+    - password
+    type: object
+  http.pingRequest:
+    properties:
+      heading:
+        type: number
+      latitude:
+        type: number
+      longitude:
+        type: number
+      speed:
+        type: number
+    required:
+    - latitude
+    - longitude
+    type: object
+  http.registerTokenRequest:
+    properties:
+      fcm_token:
+        type: string
+      language:
+        type: string
+      platform:
+        type: string
+    required:
+    - fcm_token
+    type: object
+  http.reportMockLocationRequest:
+    properties:
+      description:
+        type: string
+    type: object
+  http.resolveTicketRequest:
+    properties:
+      resolution:
+        type: string
+      ticket_id:
+        type: string
+    required:
+    - resolution
+    - ticket_id
+    type: object
+  http.setRemoteConfigRequest:
+    properties:
+      value:
+        additionalProperties: true
+        type: object
+    required:
+    - value
+    type: object
+host: api.yolyolakay.com
+info:
+  contact:
+    email: support@hextec.uz
+    name: HEXTEC Group
+    url: https://hextec.uz
+  description: Единая API документация для всех микросервисов платформы YolYolakay
+    — райдшеринг, посылки, биллинг, телематика и др.
+  license:
+    name: Proprietary
+    url: https://yolyolakay.uz/license
+  termsOfService: https://yolyolakay.uz/terms
+  title: YolYolakay Backend API
+  version: "2.0"
+paths:
+  /api/v1/analytics/events:
+    post:
+      consumes:
+      - application/json
+      description: Logs telemetry data/event into the Data Lake
+      parameters:
+      - description: Event Details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.logEventRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Log a new analytics event
+      tags:
+      - analytics
+  /api/v1/analytics/stats:
+    get:
+      description: Retrieves aggregated event counts for the BI Dashboard
+      parameters:
+      - description: From date (YYYY-MM-DD)
+        in: query
+        name: from
+        type: string
+      - description: To date (YYYY-MM-DD)
+        in: query
+        name: to
+        type: string
+      - description: Group by (e.g. day, month)
+        in: query
+        name: group_by
+        type: string
+      - description: Event type filter (e.g. app_open, ride_create)
+        in: query
+        name: event_type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.EventStatsResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get event statistics
+      tags:
+      - analytics
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user using phone number and password
+      parameters:
+      - description: Phone and Password
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.LoginRequest'
+      - description: Device ID
+        in: header
+        name: X-Device-ID
+        type: string
+      - description: OS Type
+        in: header
+        name: X-OS-Type
+        type: string
+      - description: User Agent
+        in: header
+        name: User-Agent
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: New device detected, OTP required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "423":
+          description: Account temporarily locked
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login with password
+      tags:
+      - Auth
+  /api/v1/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Exchanges a valid refresh token for a new pair of tokens
+      parameters:
+      - description: Refresh Token
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Refresh JWT Token
+      tags:
+      - Auth
+  /api/v1/auth/send-otp:
+    post:
+      consumes:
+      - application/json
+      description: Sends a 5-digit code to the specified phone number
+      parameters:
+      - description: Phone Number
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SendOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: User not found (for login/frgt_pswd)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: User already exists (for register)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "429":
+          description: Too Many Requests
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Send OTP via SMS
+      tags:
+      - Auth
+  /api/v1/auth/sessions:
+    get:
+      description: Retrieves all active sessions for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.SessionResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get active sessions
+      tags:
+      - Auth
+  /api/v1/auth/sessions/{device_id}:
+    delete:
+      description: Terminates a specific active session by device_id
+      parameters:
+      - description: Device ID
+        in: path
+        name: device_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Terminate session
+      tags:
+      - Auth
+  /api/v1/auth/setup-password:
+    post:
+      consumes:
+      - application/json
+      description: Sets up a password for the authenticated user to login without
+        OTP in the future
+      parameters:
+      - description: New Password
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SetupPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Setup or update password
+      tags:
+      - Auth
+  /api/v1/auth/verify-otp:
+    post:
+      consumes:
+      - application/json
+      description: Verifies the OTP and issues JWT tokens (optionally sets password
+        if provided)
+      parameters:
+      - description: Phone, Code and optional Password
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.VerifyOTPRequest'
+      - description: Device ID
+        in: header
+        name: X-Device-ID
+        type: string
+      - description: OS Type
+        in: header
+        name: X-OS-Type
+        type: string
+      - description: User Agent
+        in: header
+        name: User-Agent
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Verify OTP and Login
+      tags:
+      - Auth
+  /api/v1/backoffice/admins:
+    get:
+      description: Returns list of all admin users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Admin'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: List admins
+      tags:
+      - backoffice
+  /api/v1/backoffice/admins/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates an admin and returns their profile
+      parameters:
+      - description: Login Credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Admin login
+      tags:
+      - backoffice
+  /api/v1/backoffice/configs/{key}:
+    get:
+      description: Retrieves a dynamic JSON configuration for the mobile app
+      parameters:
+      - description: Config Key
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get remote config
+      tags:
+      - backoffice
+    put:
+      consumes:
+      - application/json
+      description: Sets or updates a dynamic JSON configuration for the mobile app
+      parameters:
+      - description: Config Key
+        in: path
+        name: key
+        required: true
+        type: string
+      - description: Config Value
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.setRemoteConfigRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Set remote config
+      tags:
+      - backoffice
+  /api/v1/backoffice/logs/stream:
+    get:
+      description: Connects to Loki and streams logs via Server-Sent Events (SSE)
+      produces:
+      - text/event-stream
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Stream infrastructure logs
+      tags:
+      - backoffice
+  /api/v1/billing/admin/gift-inject:
+    post:
+      consumes:
+      - application/json
+      description: Creates an async task to add free parcels to all active premium
+        drivers
+      parameters:
+      - description: Gift quota details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.GiftInjectRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Inject free parcels to premium drivers
+      tags:
+      - Billing Admin
+  /api/v1/billing/admin/stats:
+    get:
+      description: Fetch aggregated statistics for billing for admin dashboard
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.AdminStats'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Fetch billing statistics
+      tags:
+      - Billing Admin
+  /api/v1/billing/cards:
+    get:
+      consumes:
+      - application/json
+      description: returns all active payment tokens for a user
+      produces:
+      - application/json
+      responses: {}
+      summary: Get saved cards for a user
+      tags:
+      - Billing
+    post:
+      consumes:
+      - application/json
+      description: Mocks the saving of a card token from Click/Payme
+      parameters:
+      - description: Card token details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.AddPaymentMethodRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Save a payment card token
+      tags:
+      - Billing
+  /api/v1/billing/pay:
+    post:
+      consumes:
+      - application/json
+      description: Deducts money using a saved card and activates a SaaS plan
+      parameters:
+      - description: Subscription payment details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SubscribeDriverRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Pay for a subscription
+      tags:
+      - Billing
+  /api/v1/billing/plans:
+    get:
+      consumes:
+      - application/json
+      description: returns a static catalog of available subscription plans
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get available billing plans
+      tags:
+      - Billing
+  /api/v1/billing/subscription:
+    get:
+      consumes:
+      - application/json
+      description: returns active subscription details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.SubscriptionResponse'
+      security:
+      - BearerAuth: []
+      summary: Get active subscription for a driver
+      tags:
+      - Billing
+  /api/v1/billing/transactions/{id}:
+    get:
+      consumes:
+      - application/json
+      description: returns transaction status (pending, success, failed, cancelled)
+      parameters:
+      - description: Transaction ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get status of a payment transaction
+      tags:
+      - Billing
+  /api/v1/bookings/{id}/cancel:
+    post:
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Cancel reason
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/http.CancelBookingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cancel a booking (for passenger)
+      tags:
+      - bookings
+  /api/v1/bookings/{id}/no-show:
+    post:
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Report a passenger no-show via booking ID
+      tags:
+      - bookings
+  /api/v1/chats:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.chatResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить список диалогов чата с последним сообщением
+      tags:
+      - notifications
+      - chats
+  /api/v1/chats/{peer_id}/messages:
+    get:
+      parameters:
+      - description: Peer User ID
+        in: path
+        name: peer_id
+        required: true
+        type: string
+      - description: Ride ID (опционально)
+        in: query
+        name: ride_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить историю сообщений конкретного чата
+      tags:
+      - chats
+  /api/v1/fraud/report:
+    post:
+      consumes:
+      - application/json
+      description: Штрафует пользователя (обычно водителя) за использование фейковых
+        координат
+      parameters:
+      - description: User Info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.reportMockLocationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.TrustScoreResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Сообщить о подмене GPS
+      tags:
+      - antifraud
+  /api/v1/fraud/score:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает текущий Trust Score (0-100) пользователя
+      parameters:
+      - description: User UUID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.TrustScoreResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить текущий рейтинг доверия
+      tags:
+      - antifraud
+  /api/v1/helpdesk/tickets:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех обращений текущего авторизованного пользователя
+        из JWT токена
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Ticket'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить тикеты текущего пользователя
+      tags:
+      - helpdesk
+    post:
+      consumes:
+      - application/json
+      description: Создает обращение в службу поддержки (жалоба, ДТП, забытые вещи)
+      parameters:
+      - description: Ticket Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.createTicketRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Ticket'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создать новый тикет
+      tags:
+      - helpdesk
+  /api/v1/helpdesk/tickets/resolve:
+    post:
+      consumes:
+      - application/json
+      description: Переводит тикет в статус RESOLVED и сохраняет текст ответа оператора
+      parameters:
+      - description: Ticket Resolution Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.resolveTicketRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Ticket'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Решить тикет (для оператора)
+      tags:
+      - helpdesk
+  /api/v1/media/{filename}:
+    get:
+      parameters:
+      - description: Filename
+        in: path
+        name: filename
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+      summary: Get a media file
+      tags:
+      - media
+  /api/v1/media/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Media'
+      security:
+      - BearerAuth: []
+      summary: Upload a media file
+      tags:
+      - media
+  /api/v1/notifications:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает системные уведомления для текущего пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: История системных уведомлений
+      tags:
+      - notifications
+  /api/v1/notifications/{id}/read:
+    put:
+      consumes:
+      - application/json
+      description: Помечает системное уведомление как прочитанное
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Пометить уведомление как прочитанное
+      tags:
+      - notifications
+  /api/v1/notifications/admin/online-status:
+    get:
+      description: Возвращает онлайн статус для переданных user_ids
+      parameters:
+      - description: Comma-separated user IDs
+        in: query
+        name: user_ids
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить онлайн статусы (для админки)
+      tags:
+      - notifications
+  /api/v1/notifications/chats:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.chatResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить список диалогов чата с последним сообщением
+      tags:
+      - notifications
+      - chats
+  /api/v1/notifications/history:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает историю сообщений между двумя пользователями
+      parameters:
+      - description: 'Peer ID (ID собеседника, обязателен: peer_id, user_id_2 или
+          user_id_1)'
+        in: query
+        name: peer_id
+        type: string
+      - description: User 2 ID (альтернативный ID собеседника)
+        in: query
+        name: user_id_2
+        type: string
+      - description: User 1 ID (альтернативный ID собеседника)
+        in: query
+        name: user_id_1
+        type: string
+      - description: Ride ID (опционально)
+        in: query
+        name: ride_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить историю переписки
+      tags:
+      - notifications
+  /api/v1/notifications/tokens:
+    post:
+      consumes:
+      - application/json
+      description: Сохраняет токен устройства для пуш-уведомлений
+      parameters:
+      - description: Данные токена
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.registerTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Регистрация FCM токена
+      tags:
+      - notifications
+  /api/v1/notifications/vapid-key:
+    get:
+      description: Возвращает VAPID ключ для настройки Web Push на клиенте
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить публичный VAPID ключ
+      tags:
+      - notifications
+  /api/v1/parcels:
+    post:
+      consumes:
+      - application/json
+      description: Создает новую посылку (Слепая логистика скрывает телефон)
+      parameters:
+      - description: Данные посылки
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.createParcelRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/http.Parcel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Создать посылку
+      tags:
+      - parcels
+  /api/v1/parcels/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Получает детальную информацию о посылке
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.Parcel'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить посылку по ID
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/accept:
+    post:
+      consumes:
+      - application/json
+      description: Закрепляет посылку за водителем (Mock проверки премиум статуса).
+        Дешифрует телефон.
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Driver ID
+        in: query
+        name: driver_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.Parcel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Только для премиум водителей
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Принять посылку водителем
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/cancel:
+    post:
+      consumes:
+      - application/json
+      description: Отправитель отменяет свою посылку (только если она в статусе pending)
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Отменить посылку
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/confirm-delivery:
+    post:
+      consumes:
+      - application/json
+      description: Позволяет водителю или отправителю подтвердить доставку посылки
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Подтверждение доставки посылки (водителем или отправителем)
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/deliver:
+    post:
+      consumes:
+      - application/json
+      description: Водитель отмечает, что доставил посылку
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Доставить посылку
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/pickup:
+    post:
+      consumes:
+      - application/json
+      description: Водитель отмечает, что забрал посылку
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Забрать посылку
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/respond:
+    post:
+      consumes:
+      - application/json
+      description: Водитель предлагает свою цену для доставки посылки
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Offered Price
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties:
+            format: float64
+            type: number
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.ParcelResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Откликнуться на посылку
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/responses:
+    get:
+      consumes:
+      - application/json
+      description: Отправитель смотрит отклики от водителей на свою посылку
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.ParcelResponseDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить отклики на посылку
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/responses/{response_id}/accept:
+    post:
+      consumes:
+      - application/json
+      description: Отправитель принимает предложенную цену от водителя
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Response ID
+        in: path
+        name: response_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Принять отклик водителя
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/responses/{response_id}/reject:
+    post:
+      consumes:
+      - application/json
+      description: Отправитель отклоняет предложенную цену от водителя
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Response ID
+        in: path
+        name: response_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Отклонить отклик водителя
+      tags:
+      - parcels
+  /api/v1/parcels/admin/list:
+    get:
+      consumes:
+      - application/json
+      description: Gets all parcels for the admin panel. Requires Admin role.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.Parcel'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get All Parcels (Admin)
+      tags:
+      - parcels
+  /api/v1/parcels/admin/user/{id}/stats:
+    get:
+      consumes:
+      - application/json
+      description: Получает количество посылок отправленных и доставленных пользователем
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.UserParcelStats'
+      security:
+      - BearerAuth: []
+      summary: Получить статистику посылок пользователя (Админ)
+      tags:
+      - parcels
+  /api/v1/parcels/my:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает посылки текущего пользователя (отправителя или водителя).
+        Поддерживает query параметр ?role=sender (по-умолчанию) или ?role=driver
+      parameters:
+      - description: 'Роль пользователя: sender или driver'
+        in: query
+        name: role
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.Parcel'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Мои посылки
+      tags:
+      - parcels
+  /api/v1/parcels/search:
+    get:
+      consumes:
+      - application/json
+      description: Ищет свободные посылки в радиусе (в метрах) для водителей. Телефон
+        скрыт.
+      parameters:
+      - description: Долгота водителя
+        in: query
+        name: lon
+        required: true
+        type: number
+      - description: Широта водителя
+        in: query
+        name: lat
+        required: true
+        type: number
+      - description: Радиус поиска в метрах (по умолчанию 5000)
+        in: query
+        name: radius
+        type: number
+      - description: Минимальная цена
+        in: query
+        name: price_min
+        type: number
+      - description: Максимальная цена
+        in: query
+        name: price_max
+        type: number
+      - description: Город
+        in: query
+        name: city
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.Parcel'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Поиск посылок рядом
+      tags:
+      - parcels
+  /api/v1/rating:
+    get:
+      consumes:
+      - application/json
+      description: Fetches paginated reviews for a user (driver or passenger)
+      parameters:
+      - description: Reviewee User ID (UUID)
+        in: query
+        name: reviewee_id
+        required: true
+        type: string
+      - description: Limit (default 20, max 100)
+        in: query
+        name: limit
+        type: integer
+      - description: Offset (default 0)
+        in: query
+        name: offset
+        type: integer
+      - description: Only return reviews with non-empty comments
+        in: query
+        name: with_comment
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.FeedbackListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get user feedbacks and ratings
+      tags:
+      - rating
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Feedback Details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.SubmitFeedbackRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Feedback'
+      security:
+      - BearerAuth: []
+      summary: Submit a new feedback rating
+      tags:
+      - rating
+  /api/v1/rides/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ride details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.PublishRideRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Publish a new ride
+      tags:
+      - rides
+  /api/v1/rides/{id}:
+    get:
+      description: Returns full details of a specific ride
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.RideResponse'
+      summary: Get a single ride by ID
+      tags:
+      - rides
+  /api/v1/rides/{id}/activate:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Error message (e.g., filters not available on Plus plan or
+            insufficient limits)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Activate a draft ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/book:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.BookRideRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.BookingResponse'
+      security:
+      - BearerAuth: []
+      summary: Book seats in a ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/bookings/{booking_id}/accept:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Accept a pending negotiation
+      tags:
+      - rides
+  /api/v1/rides/{id}/bookings/{booking_id}/cancel:
+    post:
+      description: Allows a passenger to cancel their own booking within a specific
+        ride
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      - description: Cancel reason
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/http.CancelBookingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cancel a booking in a ride (for passenger)
+      tags:
+      - rides
+  /api/v1/rides/{id}/bookings/{booking_id}/counter:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      - description: New Price
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.CounterBookingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Counter a passenger's booking price
+      tags:
+      - rides
+  /api/v1/rides/{id}/bookings/{booking_id}/no-show:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Report a passenger no-show
+      tags:
+      - rides
+  /api/v1/rides/{id}/bookings/{booking_id}/reject:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Reject a pending negotiation
+      tags:
+      - rides
+  /api/v1/rides/{id}/cancel:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Cancel reason
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/http.CancelRideRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cancel a ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/complete:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Complete a ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/driver-location:
+    get:
+      description: Возвращает последние GPS координаты, скорость, угол направления
+        и время обновления водителя. Доступно только водителю и подтвержденным пассажирам
+        поездки.
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.DriverLocationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получение актуального местоположения водителя поездки
+      tags:
+      - rides
+  /api/v1/rides/{id}/location:
+    get:
+      deprecated: true
+      description: 'Возвращает текущие координаты водителя для участника активной
+        поездки. Устарело: используйте /api/v1/rides/{id}/driver-location'
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.DriverLocationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получение координат водителя по поездке (для водителя или подтвержденного
+        пассажира) [DEPRECATED]
+      tags:
+      - rides
+  /api/v1/rides/{id}/passengers:
+    get:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get confirmed passengers for a ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/start:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Start an active ride
+      tags:
+      - rides
+  /api/v1/rides/admin/active:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Fetch all active rides for admin map
+      tags:
+      - rides
+  /api/v1/rides/admin/stats:
+    get:
+      description: Fetch aggregated statistics for rides for admin dashboard
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.AdminStatsResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Fetch ride statistics
+      tags:
+      - rides
+  /api/v1/rides/admin/user/{id}/active:
+    get:
+      description: Gets the active ride for a specific user (as driver or passenger)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.RideResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Fetch user active ride
+      tags:
+      - rides
+  /api/v1/rides/admin/user/{id}/stats:
+    get:
+      consumes:
+      - application/json
+      description: Получает количество поездок пользователя как водителя и пассажира
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.UserRideStatsResponse'
+      security:
+      - BearerAuth: []
+      summary: Получить статистику поездок пользователя (Админ)
+      tags:
+      - rides
+  /api/v1/rides/earnings:
+    get:
+      description: Returns total rides, completed, cancelled, and total earnings
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.DriverStatisticsResponse'
+      security:
+      - BearerAuth: []
+      summary: Get driver's earnings and statistics
+      tags:
+      - rides
+  /api/v1/rides/my:
+    get:
+      parameters:
+      - description: Role (driver or passenger)
+        enum:
+        - driver
+        - passenger
+        in: query
+        name: role
+        required: true
+        type: string
+      - description: Comma-separated statuses to filter by
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get user's rides or bookings
+      tags:
+      - rides
+  /api/v1/rides/recommendations:
+    get:
+      consumes:
+      - application/json
+      description: 'Returns 3 lists of rides: based on user history, global top destinations,
+        and unvisited destinations'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.RecommendationsResponse'
+      security:
+      - BearerAuth: []
+      summary: Get personalized ride recommendations
+      tags:
+      - rides
+  /api/v1/rides/route-subscriptions:
+    get:
+      description: Returns list of active route subscriptions for current passenger
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.RouteSubscriptionResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List route subscriptions
+      tags:
+      - rides
+    post:
+      consumes:
+      - application/json
+      description: Subscribe to notifications for rides along a specific route
+      parameters:
+      - description: Route Subscription Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateRouteSubscriptionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/http.RouteSubscriptionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create route subscription
+      tags:
+      - rides
+  /api/v1/rides/route-subscriptions/{id}:
+    delete:
+      description: Removes a route subscription by ID
+      parameters:
+      - description: Subscription ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete route subscription
+      tags:
+      - rides
+  /api/v1/rides/search:
+    get:
+      parameters:
+      - description: Origin Latitude
+        format: float64
+        in: query
+        name: origin_lat
+        required: true
+        type: number
+      - description: Origin Longitude
+        format: float64
+        in: query
+        name: origin_lon
+        required: true
+        type: number
+      - description: Destination Latitude
+        format: float64
+        in: query
+        name: dest_lat
+        required: true
+        type: number
+      - description: Destination Longitude
+        format: float64
+        in: query
+        name: dest_lon
+        required: true
+        type: number
+      - description: Radius in KM
+        format: float64
+        in: query
+        name: radius_km
+        required: true
+        type: number
+      - description: Minimum available seats
+        in: query
+        name: min_seats
+        type: integer
+      - description: Minimum price
+        in: query
+        name: price_min
+        type: number
+      - description: Maximum price
+        in: query
+        name: price_max
+        type: number
+      - description: Date from (RFC3339 or flexible like '2006-01-02')
+        in: query
+        name: date_from
+        type: string
+      - description: Date to (RFC3339 or flexible like '2006-01-02')
+        in: query
+        name: date_to
+        type: string
+      - description: Gender restriction (male, female, any)
+        in: query
+        name: gender_restriction
+        type: string
+      - description: Filter by city name
+        in: query
+        name: city
+        type: string
+      - description: Pickup preference (door_to_door, main_road, bus_station)
+        in: query
+        name: pickup_preference
+        type: string
+      - description: Passenger tier (standard, premium)
+        in: query
+        name: passenger_tier
+        type: string
+      - description: Include test rides (default false)
+        in: query
+        name: include_test
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.SearchRidesResponse'
+      summary: Search rides by origin and destination
+      tags:
+      - rides
+  /api/v1/routing/geocode:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список адресов с координатами по текстовому запросу
+      parameters:
+      - description: Text address to search
+        in: query
+        name: query
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Поиск координат по адресу (Forward Geocoding)
+      tags:
+      - routing
+  /api/v1/routing/reverse-geocode:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает подробный адрес для заданных координат
+      parameters:
+      - description: Latitude
+        format: float64
+        in: query
+        name: lat
+        required: true
+        type: number
+      - description: Longitude
+        format: float64
+        in: query
+        name: lon
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Поиск адреса по координатам (Reverse Geocoding)
+      tags:
+      - routing
+  /api/v1/routing/route:
+    get:
+      consumes:
+      - application/json
+      description: Получает дистанцию, время и полилинию маршрута от внешнего картографического
+        движка
+      parameters:
+      - description: Origin Latitude
+        format: float64
+        in: query
+        name: origin_lat
+        required: true
+        type: number
+      - description: Origin Longitude
+        format: float64
+        in: query
+        name: origin_lon
+        required: true
+        type: number
+      - description: Destination Latitude
+        format: float64
+        in: query
+        name: dest_lat
+        required: true
+        type: number
+      - description: Destination Longitude
+        format: float64
+        in: query
+        name: dest_lon
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Route'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Построение маршрута
+      tags:
+      - routing
+  /api/v1/telematics/admin/locations:
+    get:
+      description: Возвращает текущее местоположение всех активных водителей из Redis
+        (для админки)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Location'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получение позиций всех водителей
+      tags:
+      - telematics
+  /api/v1/telematics/drivers/{id}/location:
+    get:
+      parameters:
+      - description: Driver ID
+        in: path
+        name: id
+        type: string
+      - description: Driver ID (query parameter alternative)
+        in: query
+        name: driver_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.LocationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получение текущих координат конкретного водителя
+      tags:
+      - telematics
+  /api/v1/telematics/eta:
+    get:
+      consumes:
+      - application/json
+      description: Рассчитывает время прибытия заданного водителя к заданной точке
+        (через формулу Гаверсинуса)
+      parameters:
+      - description: Driver ID
+        in: query
+        name: driver_id
+        required: true
+        type: string
+      - description: Target Latitude
+        format: float64
+        in: query
+        name: target_lat
+        required: true
+        type: number
+      - description: Target Longitude
+        format: float64
+        in: query
+        name: target_lon
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.ETAResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Расчет ETA
+      tags:
+      - telematics
+  /api/v1/telematics/location:
+    get:
+      description: Возвращает координаты водителя для участника активной поездки
+      parameters:
+      - description: Driver ID
+        in: query
+        name: driver_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.LocationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получение координат водителя по query-параметру driver_id
+      tags:
+      - telematics
+  /api/v1/telematics/nearby:
+    get:
+      consumes:
+      - application/json
+      description: Ищет водителей в заданном радиусе (в км) с помощью Redis GEORADIUS
+      parameters:
+      - description: Latitude
+        format: float64
+        in: query
+        name: lat
+        required: true
+        type: number
+      - description: Longitude
+        format: float64
+        in: query
+        name: lon
+        required: true
+        type: number
+      - description: Radius (km)
+        format: float64
+        in: query
+        name: radius
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.NearbyDriver'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Поиск водителей рядом
+      tags:
+      - telematics
+  /api/v1/telematics/ping:
+    post:
+      consumes:
+      - application/json
+      description: Высоконагруженный эндпоинт для приема координат от водителей. Данные
+        мгновенно оседают в Redis и фоново батчатся в PostgreSQL.
+      parameters:
+      - description: Текущие координаты водителя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.pingRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Отправка GPS пинга
+      tags:
+      - telematics
+  /api/v1/users:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user profile with passenger role
+      parameters:
+      - description: Registration data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.RegisterPassengerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/http.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register Passenger
+      tags:
+      - users
+  /api/v1/users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Permanently deletes a user from the system
+      parameters:
+      - description: User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete User
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Gets user profile details along with associated cars
+      parameters:
+      - description: User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.UserProfileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get User Profile
+      tags:
+      - users
+  /api/v1/users/{id}/block:
+    post:
+      consumes:
+      - application/json
+      description: Блокирует другого пользователя (вы больше не будете видеть его
+        поездки)
+      parameters:
+      - description: User ID to block
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Заблокировать пользователя
+      tags:
+      - users
+  /api/v1/users/{id}/report:
+    post:
+      consumes:
+      - application/json
+      description: Отправляет жалобу на другого пользователя
+      parameters:
+      - description: Reported User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Данные жалобы (reason)
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Пожаловаться на пользователя
+      tags:
+      - users
+  /api/v1/users/admin/{id}/status:
+    post:
+      consumes:
+      - application/json
+      description: Updates user status (active/blocked)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 'Status payload (status: active/blocked)'
+        in: body
+        name: status
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update User Status (Admin)
+      tags:
+      - users
+  /api/v1/users/admin/kyc/{id}/approve:
+    post:
+      consumes:
+      - application/json
+      description: Approves a pending driver application. Requires Admin/Moderator
+        role.
+      parameters:
+      - description: User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Approve Driver KYC
+      tags:
+      - users
+  /api/v1/users/admin/kyc/{id}/reject:
+    post:
+      consumes:
+      - application/json
+      description: Rejects a pending driver application. Requires Admin/Moderator
+        role.
+      parameters:
+      - description: User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Rejection Reason
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.RejectKYCRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Reject Driver KYC
+      tags:
+      - users
+  /api/v1/users/admin/list:
+    get:
+      consumes:
+      - application/json
+      description: Gets all users. Requires Admin role.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.User'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get All Users (Admin)
+      tags:
+      - users
+  /api/v1/users/admin/search:
+    get:
+      consumes:
+      - application/json
+      description: Searches users with pagination. Requires Admin role.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Search by name or phone
+        in: query
+        name: search
+        type: string
+      - description: Filter by role (driver/passenger)
+        in: query
+        name: role
+        type: string
+      - description: Filter by status (blocked/active)
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Search Users (Admin)
+      tags:
+      - users
+  /api/v1/users/admin/stats:
+    get:
+      description: Fetch aggregated statistics for users for admin dashboard
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.AdminStats'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Fetch user statistics
+      tags:
+      - users
+  /api/v1/users/blocked:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает ID пользователей, которых вы заблокировали
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.User'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить список заблокированных пользователей
+      tags:
+      - users
+  /api/v1/users/blocked/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Разблокирует ранее заблокированного пользователя
+      parameters:
+      - description: User ID to unblock
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Разблокировать пользователя
+      tags:
+      - users
+  /api/v1/users/me:
+    delete:
+      consumes:
+      - application/json
+      description: Помечает аккаунт как удаленный
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Удалить аккаунт
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Gets user profile details for the currently authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get Current User Profile
+      tags:
+      - users
+  /api/v1/users/me/cars:
+    get:
+      consumes:
+      - application/json
+      description: Gets all cars for the currently authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.Car'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get user cars
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Adds a new car to the currently authenticated user
+      parameters:
+      - description: Car data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateCarRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/http.Car'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Add a new car
+      tags:
+      - users
+  /api/v1/users/me/cars/{id}:
+    delete:
+      description: Deletes a car belonging to the current user
+      parameters:
+      - description: Car ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete car
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Updates details of an existing car belonging to the current user
+      parameters:
+      - description: Car ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated car data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateCarRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.Car'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update car details
+      tags:
+      - users
+  /api/v1/users/profile:
+    put:
+      consumes:
+      - application/json
+      description: Updates user profile details like first name, last name, and gender
+      parameters:
+      - description: Update profile data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update User Profile
+      tags:
+      - users
+  /api/v1/users/upgrade:
+    post:
+      consumes:
+      - application/json
+      description: Upgrades a passenger to a driver by adding car and waiting for
+        KYC approval
+      parameters:
+      - description: Upgrade Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpgradeToDriverRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Upgrade to Driver
+      tags:
+      - users
+  /api/v1/vehicles/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Returns public info about a vehicle
+      parameters:
+      - description: Vehicle ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.Car'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get vehicle by ID
+      tags:
+      - vehicles
+  /ws:
+    get:
+      description: Открыть WebSocket соединение. Отправка сообщений и получение пушей.
+      parameters:
+      - description: JWT токен (альтернатива заголовку Authorization)
+        in: query
+        name: token
+        type: string
+      responses: {}
+      summary: WebSocket Endpoint (не тестируется через Swagger напрямую)
+      tags:
+      - notifications
+schemes:
+- https
+- http
+securityDefinitions:
+  BearerAuth:
+    description: 'JWT Bearer токен. Формат: "Bearer {token}"'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

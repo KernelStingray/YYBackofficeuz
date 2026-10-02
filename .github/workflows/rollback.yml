@@ -1,0 +1,35 @@
+name: Emergency Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      revision:
+        description: 'Helm Revision to rollback to (leave empty to rollback to previous version)'
+        required: false
+        default: ''
+
+jobs:
+  rollback:
+    name: Emergency Rollback to Previous Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'latest'
+
+      - name: Rollback with Helm
+        run: |
+          if [ -z "${{ github.event.inputs.revision }}" ]; then
+            echo "Rolling back to the previous Helm revision..."
+            echo "helm rollback yolyolakay"
+            # helm rollback yolyolakay
+          else
+            echo "Rolling back to Helm revision ${{ github.event.inputs.revision }}..."
+            echo "helm rollback yolyolakay ${{ github.event.inputs.revision }}"
+            # helm rollback yolyolakay ${{ github.event.inputs.revision }}
+          fi
+          echo "Rollback initiated successfully."

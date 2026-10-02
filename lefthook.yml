@@ -1,0 +1,22 @@
+# lefthook.yml
+pre-commit:
+  parallel: true
+  commands:
+    golangci-lint:
+      glob: "*.go"
+      run: golangci-lint run {staged_files}
+    gofmt:
+      glob: "*.go"
+      run: gofmt -w {staged_files}
+
+pre-push:
+  parallel: true
+  commands:
+    go-test:
+      glob: "*.go"
+      run: go test -v ./...
+
+commit-msg:
+  commands:
+    lint-commit-msg:
+      run: grep -qE "^(feat|fix|chore|refactor|docs)(\(.+\))?: .+" {1} || (echo "Commit message must follow Conventional Commits format: type(scope): subject. Example: feat(api): add new billing route" && exit 1)

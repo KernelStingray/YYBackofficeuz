@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS remote_configs;
+DROP TABLE IF EXISTS admins;

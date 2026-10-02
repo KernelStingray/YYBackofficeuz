@@ -1,0 +1,41 @@
+{{- range .Values.microservices }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "yolyolakay.fullname" $ }}-{{ .name }}
+  labels:
+    {{- include "yolyolakay.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ .name }}
+spec:
+  replicas: {{ $.Values.defaults.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "yolyolakay.selectorLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: {{ .name }}
+  template:
+    metadata:
+      labels:
+        {{- include "yolyolakay.selectorLabels" $ | nindent 8 }}
+        app.kubernetes.io/component: {{ .name }}
+    spec:
+      containers:
+        - name: {{ .name }}
+          image: "{{ $.Values.defaults.image.repository }}/{{ .name }}:{{ $.Values.defaults.image.tag }}"
+          imagePullPolicy: {{ $.Values.defaults.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .port }}
+              protocol: TCP
+          env:
+            {{- range .env }}
+            - name: {{ .name }}
+              {{- if .valueFromGlobal }}
+              value: {{ index $.Values.global .valueFromGlobal | quote }}
+              {{- else }}
+              value: {{ .value | quote }}
+              {{- end }}
+            {{- end }}
+          resources:
+            {{- toYaml $.Values.defaults.resources | nindent 12 }}
+{{- end }}

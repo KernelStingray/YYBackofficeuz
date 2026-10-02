@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package billing;
+
+option go_package = "github.com/hextec/yolyolakay-backend/pkg/api/grpc/billing";
+
+service BillingService {
+  rpc CheckRideLimit (CheckRideLimitRequest) returns (CheckRideLimitResponse) {}
+  rpc DeductParcelLimit (DeductParcelLimitRequest) returns (DeductParcelLimitResponse) {}
+}
+
+message CheckRideLimitRequest {
+  string driver_id = 1;
+}
+
+message CheckRideLimitResponse {
+  bool is_valid = 1;
+  string error_message = 2;
+  string plan_name = 3;
+}
+
+message DeductParcelLimitRequest {
+  string driver_id = 1;
+}
+
+message DeductParcelLimitResponse {
+  bool success = 1;
+}

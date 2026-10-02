@@ -1,0 +1,107 @@
+x-go-service: &go-service
+  build:
+    context: .
+    dockerfile: Dockerfile
+  restart: unless-stopped
+  env_file:
+    - .env
+  volumes:
+    - ./.env:/root/configs/.env:ro
+  extra_hosts:
+    - "redis:host-gateway"
+    - "rabbitmq:host-gateway"
+    - "vault:host-gateway"
+  networks:
+    - vpn_network
+
+services:
+  group_jupiter:
+    image: postgis/postgis:15-3.3-alpine
+    container_name: group_jupiter
+    environment:
+      POSTGRES_USER: KernelStingray
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-KeRSt!n90$8!}
+      POSTGRES_DB: group_jupiter
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_a_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U KernelStingray -d group_jupiter" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - vpn_network
+
+  auth_service:
+    <<: *go-service
+    container_name: auth_service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: auth_service
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      - PORT=8081
+      - AUTH_PORT=8081
+      - DB_A_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_jupiter:5432/racoon?sslmode=disable
+      - REDIS_ADDR=redis:6379 # Connects through vpn_network to cluster B
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-KeRSt!n90$8!}
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-StingrayRab}:${RABBITMQ_PASS:-KeRSt!n90$8!}@rabbitmq:5672/
+
+    depends_on:
+      group_jupiter:
+        condition: service_healthy
+
+  user_service:
+    <<: *go-service
+    container_name: user_service
+    build:
+      context: .
+      args:
+        SERVICE_NAME: user_service
+    ports:
+      - "127.0.0.1:8082:8082"
+      - "127.0.0.1:50052:50052"
+    environment:
+      - PORT=8082
+      - DB_A_URL=postgresql://KernelStingray:${POSTGRES_PASSWORD:-KeRSt!n90$8!}@group_jupiter:5432/racoon?sslmode=disable
+      - REDIS_ADDR=redis:6379 # Connects through vpn_network to cluster B
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-KeRSt!n90$8!}
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-StingrayRab}:${RABBITMQ_PASS:-KeRSt!n90$8!}@rabbitmq:5672/
+    depends_on:
+      group_jupiter:
+        condition: service_healthy
+
+  backup_cron_a:
+    image: alpine:latest
+    container_name: backup_cron_a
+    depends_on:
+      group_jupiter:
+        condition: service_healthy
+    volumes:
+      - ./scripts/backup.sh:/scripts/backup.sh
+    environment:
+      - PGHOST=group_jupiter
+      - PGUSER=KernelStingray
+      - PGPASSWORD=${POSTGRES_PASSWORD:-KeRSt!n90$8!}
+      - PGDATABASE=racoon
+      - S3_BUCKET=${S3_BUCKET:-s3://yolyolakay-backups/}
+      - AWS_ACCESS_KEY_ID=${S3_ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${S3_SECRET_KEY}
+      - AWS_ENDPOINT_URL=${S3_ENDPOINT}
+      - BACKUP_ENCRYPTION_KEY=${BACKUP_ENCRYPT_PASSWORD}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+    entrypoint: >
+      /bin/sh -c " apk add --no-cache postgresql-client aws-cli openssl && echo '0 3 * * * /scripts/backup.sh' > /etc/crontabs/root && crond -f -d 8 "
+    networks:
+      - vpn_network
+
+volumes:
+  postgres_a_data:
+
+networks:
+  vpn_network:
+    external: true

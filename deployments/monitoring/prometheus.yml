@@ -1,0 +1,56 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'api_gateway'
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+
+  - job_name: 'user_service'
+    static_configs:
+      - targets: ['host.docker.internal:8081']
+
+  - job_name: 'ride_service'
+    static_configs:
+      - targets: ['host.docker.internal:8083']
+
+  - job_name: 'billing_service'
+    static_configs:
+      - targets: ['host.docker.internal:8084']
+
+  - job_name: 'parcel_service'
+    static_configs:
+      - targets: ['host.docker.internal:8085']
+
+  - job_name: 'notification_service'
+    static_configs:
+      - targets: ['host.docker.internal:8086']
+
+  - job_name: 'telematics_service'
+    static_configs:
+      - targets: ['host.docker.internal:8087']
+
+  - job_name: 'routing_service'
+    static_configs:
+      - targets: ['host.docker.internal:8088']
+
+  - job_name: 'antifraud_service'
+    static_configs:
+      - targets: ['host.docker.internal:8089']
+
+  - job_name: 'helpdesk_service'
+    static_configs:
+      - targets: ['host.docker.internal:8090']
+
+  - job_name: 'analytics_service'
+    static_configs:
+      - targets: ['host.docker.internal:8091']
+
+  - job_name: 'backoffice_service'
+    static_configs:
+      - targets: ['host.docker.internal:8092']

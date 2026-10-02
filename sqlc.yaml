@@ -1,0 +1,130 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "internal/user/repository/postgres/queries.sql"
+    schema: "deployments/migrations/user"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/user/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/ride/repository/postgres/queries.sql"
+    schema: "deployments/migrations/ride"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/ride/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/billing/repository/postgres/queries.sql"
+    schema: "deployments/migrations/billing"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/billing/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/parcel/repository/postgres/queries.sql"
+    schema: "deployments/migrations/parcel"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/parcel/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/notification/repository/postgres/queries.sql"
+    schema: "deployments/migrations/notification"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/notification/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/telematics/repository/postgres/queries.sql"
+    schema: "deployments/migrations/telematics"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/telematics/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/antifraud/repository/postgres/queries.sql"
+    schema: "deployments/migrations/antifraud"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/antifraud/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/helpdesk/repository/postgres/queries.sql"
+    schema: "deployments/migrations/helpdesk"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/helpdesk/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/analytics/repository/postgres/queries.sql"
+    schema: "deployments/migrations/analytics"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/analytics/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "internal/backoffice/repository/postgres/queries.sql"
+    schema: "deployments/migrations/backoffice"
+    gen:
+      go:
+        package: "postgres"
+        out: "internal/backoffice/repository/postgres"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        sql_package: "pgx/v5"

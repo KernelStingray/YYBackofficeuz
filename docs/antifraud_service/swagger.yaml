@@ -1,0 +1,2406 @@
+basePath: /
+definitions:
+  github_com_hextec_yolyolakay-backend_internal_analytics_domain.EventStats:
+    properties:
+      event_count:
+        type: integer
+      event_type:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_antifraud_domain.TrustScore:
+    properties:
+      score:
+        type: number
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_auth_domain.Session:
+    properties:
+      created_at:
+        type: string
+      device_id:
+        type: string
+      device_ip:
+        type: string
+      expires_at:
+        type: string
+      os_type:
+        type: string
+      refresh_token:
+        type: string
+      session_id:
+        type: string
+      user_agent:
+        type: string
+      user_id:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_auth_usecase.TokenResponse:
+    properties:
+      access_token:
+        type: string
+      is_new_user:
+        type: boolean
+      refresh_token:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_backoffice_domain.Admin:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      login:
+        type: string
+      role:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_backoffice_domain.RemoteConfig:
+    properties:
+      key:
+        type: string
+      updated_at:
+        type: string
+      value:
+        additionalProperties: true
+        type: object
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_billing_domain.PaymentToken:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      masked_pan:
+        type: string
+      provider:
+        type: string
+      status:
+        type: string
+      token:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_billing_domain.Subscription:
+    properties:
+      created_at:
+        type: string
+      driver_id:
+        type: string
+      end_date:
+        type: string
+      free_parcels_quota:
+        type: integer
+      has_used_trial:
+        type: boolean
+      id:
+        type: string
+      plan_name:
+        type: string
+      rides_left:
+        type: integer
+      start_date:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_helpdesk_domain.Ticket:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      subject:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_media_domain.Media:
+    properties:
+      content_type:
+        type: string
+      id:
+        type: string
+      size:
+        type: integer
+      url:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_notification_domain.Message:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      receiver_id:
+        type: string
+      ride_id:
+        type: string
+      sender_id:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_notification_domain.NotificationHistoryItem:
+    properties:
+      body:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      is_read:
+        type: boolean
+      title:
+        type: string
+      type:
+        type: string
+      user_id:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_parcel_domain.Parcel:
+    properties:
+      created_at:
+        type: string
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      driver_id:
+        type: string
+      id:
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      price:
+        type: number
+      receiver_phone:
+        type: string
+      sender_id:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_rating_domain.Feedback:
+    properties:
+      comment:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      reviewee_id:
+        description: User who receives the rating
+        type: string
+      reviewer_id:
+        description: User who gives the rating
+        type: string
+      ride_id:
+        type: string
+      score:
+        description: 1 to 5
+        type: integer
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_ride_domain.Booking:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      isFullCarBuyout:
+        type: boolean
+      offeredPrice:
+        format: float64
+        type: number
+      passengerID:
+        type: string
+      rideID:
+        type: string
+      seatsBooked:
+        format: int32
+        type: integer
+      status:
+        type: string
+      totalPrice:
+        format: float64
+        type: number
+      updatedAt:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_ride_domain.DriverProfile:
+    properties:
+      avatar:
+        type: string
+      name:
+        type: string
+      rating:
+        type: number
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_routing_domain.Route:
+    properties:
+      distance:
+        description: in meters
+        type: number
+      duration:
+        description: in seconds
+        type: number
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_telematics_domain.NearbyDriver:
+    properties:
+      distance:
+        description: in meters
+        type: number
+      driver_id:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_user_domain.Car:
+    properties:
+      brand:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      gov_number:
+        type: string
+      id:
+        type: string
+      model:
+        type: string
+      moderation_status:
+        type: string
+      tech_passport_photo:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  github_com_hextec_yolyolakay-backend_internal_user_domain.User:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      is_verified_myid:
+        type: boolean
+      last_name:
+        type: string
+      locale:
+        type: string
+      myid_serial_hash:
+        type: string
+      phone_number:
+        type: string
+      rating:
+        type: number
+      rating_count:
+        type: integer
+      role:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  http.AddPaymentMethodRequest:
+    properties:
+      masked_pan:
+        type: string
+      provider:
+        type: string
+      token:
+        type: string
+    required:
+    - masked_pan
+    - provider
+    - token
+    type: object
+  http.BookRideRequest:
+    properties:
+      is_full_car_buyout:
+        type: boolean
+      offered_price:
+        type: number
+      seats:
+        type: integer
+    required:
+    - seats
+    type: object
+  http.CancelRideRequest:
+    properties:
+      reason:
+        type: string
+    type: object
+  http.CreateCarRequest:
+    properties:
+      brand:
+        type: string
+      gov_number:
+        type: string
+      model:
+        type: string
+      tech_passport_photo:
+        type: string
+    required:
+    - brand
+    - gov_number
+    - model
+    type: object
+  http.GiftInjectRequest:
+    properties:
+      quota:
+        type: integer
+    required:
+    - quota
+    type: object
+  http.LoginRequest:
+    properties:
+      password:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - password
+    - phone_number
+    type: object
+  http.PublishRideRequest:
+    properties:
+      departure_time:
+        description: RFC3339 format
+        type: string
+      destination_address:
+        type: string
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      gender_restriction:
+        type: string
+      has_ac:
+        type: boolean
+      has_luggage:
+        type: boolean
+      is_negotiable:
+        type: boolean
+      origin_address:
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      pickup_point:
+        type: string
+      price_per_seat:
+        type: number
+      stops:
+        items:
+          $ref: '#/definitions/http.RideStopRequest'
+        type: array
+      takes_parcels:
+        type: boolean
+      total_seats:
+        type: integer
+      vehicle_id:
+        type: string
+    required:
+    - departure_time
+    - destination_address
+    - destination_lat
+    - destination_lon
+    - origin_address
+    - origin_lat
+    - origin_lon
+    - price_per_seat
+    - total_seats
+    - vehicle_id
+    type: object
+  http.RefreshRequest:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  http.RegisterPassengerRequest:
+    properties:
+      first_name:
+        maxLength: 50
+        minLength: 2
+        type: string
+      gender:
+        type: string
+      last_name:
+        maxLength: 50
+        minLength: 2
+        type: string
+      phone_number:
+        description: e164 validates international phone format like +998901234567
+        type: string
+    required:
+    - first_name
+    - last_name
+    - phone_number
+    type: object
+  http.RideSearchResponse:
+    properties:
+      available_seats:
+        type: integer
+      departure_time:
+        type: string
+      destination_address:
+        type: string
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      driver:
+        $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_ride_domain.DriverProfile'
+      gender_restriction:
+        type: string
+      has_ac:
+        type: boolean
+      has_fair_price_badge:
+        type: boolean
+      has_luggage:
+        type: boolean
+      id:
+        type: string
+      is_negotiable:
+        type: boolean
+      origin_address:
+        type: string
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      pickup_point:
+        type: string
+      price_per_seat:
+        type: number
+      status:
+        type: string
+      takes_parcels:
+        type: boolean
+      total_seats:
+        type: integer
+    type: object
+  http.RideStopRequest:
+    properties:
+      address:
+        type: string
+      lat:
+        type: number
+      lon:
+        type: number
+    required:
+    - address
+    - lat
+    - lon
+    type: object
+  http.SendOTPRequest:
+    properties:
+      phone_number:
+        type: string
+    required:
+    - phone_number
+    type: object
+  http.SetupPasswordRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+    required:
+    - password
+    type: object
+  http.SubmitFeedbackRequest:
+    properties:
+      comment:
+        type: string
+      reviewee_id:
+        type: string
+      ride_id:
+        type: string
+      score:
+        maximum: 5
+        minimum: 1
+        type: integer
+    required:
+    - reviewee_id
+    - ride_id
+    - score
+    type: object
+  http.SubscribeDriverRequest:
+    properties:
+      payment_token_id:
+        type: string
+      plan_name:
+        type: string
+      promo_code:
+        type: string
+    required:
+    - plan_name
+    type: object
+  http.UpdateProfileRequest:
+    properties:
+      first_name:
+        maxLength: 50
+        minLength: 2
+        type: string
+      gender:
+        type: string
+      last_name:
+        maxLength: 50
+        minLength: 2
+        type: string
+    required:
+    - first_name
+    - last_name
+    type: object
+  http.VerifyOTPRequest:
+    properties:
+      code:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - code
+    - phone_number
+    type: object
+  http.createParcelRequest:
+    properties:
+      destination_lat:
+        type: number
+      destination_lon:
+        type: number
+      origin_lat:
+        type: number
+      origin_lon:
+        type: number
+      price:
+        type: number
+      receiver_phone:
+        type: string
+    required:
+    - destination_lat
+    - destination_lon
+    - origin_lat
+    - origin_lon
+    - price
+    - receiver_phone
+    type: object
+  http.createTicketRequest:
+    properties:
+      description:
+        type: string
+      subject:
+        type: string
+    required:
+    - description
+    - subject
+    type: object
+  http.logEventRequest:
+    properties:
+      event_type:
+        type: string
+      payload:
+        additionalProperties: true
+        type: object
+      user_id:
+        type: string
+    required:
+    - event_type
+    type: object
+  http.loginRequest:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    required:
+    - login
+    - password
+    type: object
+  http.pingRequest:
+    properties:
+      heading:
+        type: number
+      latitude:
+        type: number
+      longitude:
+        type: number
+      speed:
+        type: number
+    required:
+    - latitude
+    - longitude
+    type: object
+  http.registerTokenRequest:
+    properties:
+      fcm_token:
+        type: string
+      language:
+        type: string
+      platform:
+        type: string
+    required:
+    - fcm_token
+    type: object
+  http.resolveTicketRequest:
+    properties:
+      ticket_id:
+        type: string
+    required:
+    - ticket_id
+    type: object
+  http.setRemoteConfigRequest:
+    properties:
+      value:
+        additionalProperties: true
+        type: object
+    required:
+    - value
+    type: object
+  internal_antifraud_delivery_http.reportMockLocationRequest:
+    properties:
+      description:
+        type: string
+    type: object
+host: localhost:8089
+info:
+  contact: {}
+  description: Microservice for trust scoring and malicious behavior detection.
+  title: YolYolakay Anti-Fraud & Scoring API
+  version: "1.0"
+paths:
+  /api/v1/analytics/events:
+    post:
+      consumes:
+      - application/json
+      description: Logs telemetry data/event into the Data Lake
+      parameters:
+      - description: Event Details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.logEventRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Log a new analytics event
+      tags:
+      - analytics
+  /api/v1/analytics/stats:
+    get:
+      description: Retrieves aggregated event counts for the BI Dashboard
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_analytics_domain.EventStats'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get event statistics
+      tags:
+      - analytics
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user using phone number and password
+      parameters:
+      - description: Phone and Password
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.LoginRequest'
+      - description: Device ID
+        in: header
+        name: X-Device-ID
+        type: string
+      - description: OS Type
+        in: header
+        name: X-OS-Type
+        type: string
+      - description: User Agent
+        in: header
+        name: User-Agent
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_auth_usecase.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login with password
+      tags:
+      - Auth
+  /api/v1/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Exchanges a valid refresh token for a new pair of tokens
+      parameters:
+      - description: Refresh Token
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_auth_usecase.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Refresh JWT Token
+      tags:
+      - Auth
+  /api/v1/auth/send-otp:
+    post:
+      consumes:
+      - application/json
+      description: Sends a 4-digit code to the specified phone number
+      parameters:
+      - description: Phone Number
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SendOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "429":
+          description: Too Many Requests
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Send OTP via SMS
+      tags:
+      - Auth
+  /api/v1/auth/sessions:
+    get:
+      description: Retrieves all active sessions for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_auth_domain.Session'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get active sessions
+      tags:
+      - Auth
+  /api/v1/auth/sessions/{device_id}:
+    delete:
+      description: Terminates a specific active session by device_id
+      parameters:
+      - description: Device ID
+        in: path
+        name: device_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Terminate session
+      tags:
+      - Auth
+  /api/v1/auth/setup-password:
+    post:
+      consumes:
+      - application/json
+      description: Sets up a password for the authenticated user to login without
+        OTP in the future
+      parameters:
+      - description: New Password
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SetupPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Setup or update password
+      tags:
+      - Auth
+  /api/v1/auth/verify-otp:
+    post:
+      consumes:
+      - application/json
+      description: Verifies the OTP and issues JWT tokens
+      parameters:
+      - description: Phone and Code
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.VerifyOTPRequest'
+      - description: Device ID
+        in: header
+        name: X-Device-ID
+        type: string
+      - description: OS Type
+        in: header
+        name: X-OS-Type
+        type: string
+      - description: User Agent
+        in: header
+        name: User-Agent
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_auth_usecase.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Verify OTP and Login
+      tags:
+      - Auth
+  /api/v1/backoffice/admins/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates an admin and returns their profile
+      parameters:
+      - description: Login Credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_backoffice_domain.Admin'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Admin login
+      tags:
+      - backoffice
+  /api/v1/backoffice/configs/{key}:
+    get:
+      description: Retrieves a dynamic JSON configuration for the mobile app
+      parameters:
+      - description: Config Key
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_backoffice_domain.RemoteConfig'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get remote config
+      tags:
+      - backoffice
+    put:
+      consumes:
+      - application/json
+      description: Sets or updates a dynamic JSON configuration for the mobile app
+      parameters:
+      - description: Config Key
+        in: path
+        name: key
+        required: true
+        type: string
+      - description: Config Value
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.setRemoteConfigRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Set remote config
+      tags:
+      - backoffice
+  /api/v1/billing/admin/gift-inject:
+    post:
+      consumes:
+      - application/json
+      description: Creates an async task to add free parcels to all active premium
+        drivers
+      parameters:
+      - description: Gift quota details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.GiftInjectRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Inject free parcels to premium drivers
+      tags:
+      - Billing Admin
+  /api/v1/billing/cards:
+    get:
+      consumes:
+      - application/json
+      description: returns all active payment tokens for a user
+      produces:
+      - application/json
+      responses: {}
+      summary: Get saved cards for a user
+      tags:
+      - Billing
+    post:
+      consumes:
+      - application/json
+      description: Mocks the saving of a card token from Click/Payme
+      parameters:
+      - description: Card token details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.AddPaymentMethodRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_billing_domain.PaymentToken'
+      summary: Save a payment card token
+      tags:
+      - Billing
+  /api/v1/billing/pay:
+    post:
+      consumes:
+      - application/json
+      description: Deducts money using a saved card and activates a SaaS plan
+      parameters:
+      - description: Subscription payment details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SubscribeDriverRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_billing_domain.Subscription'
+      summary: Pay for a subscription
+      tags:
+      - Billing
+  /api/v1/billing/plans:
+    get:
+      consumes:
+      - application/json
+      description: returns a static catalog of available subscription plans
+      produces:
+      - application/json
+      responses: {}
+      summary: Get available billing plans
+      tags:
+      - Billing
+  /api/v1/billing/subscription:
+    get:
+      consumes:
+      - application/json
+      description: returns active subscription details
+      produces:
+      - application/json
+      responses: {}
+      summary: Get active subscription for a driver
+      tags:
+      - Billing
+  /api/v1/fraud/report:
+    post:
+      consumes:
+      - application/json
+      description: Штрафует пользователя (обычно водителя) за использование фейковых
+        координат
+      parameters:
+      - description: User Info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_antifraud_delivery_http.reportMockLocationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_antifraud_domain.TrustScore'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Сообщить о подмене GPS
+      tags:
+      - antifraud
+  /api/v1/fraud/score:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает текущий Trust Score (0-100) пользователя
+      parameters:
+      - description: User UUID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_antifraud_domain.TrustScore'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить текущий рейтинг доверия
+      tags:
+      - antifraud
+  /api/v1/helpdesk/tickets:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех обращений конкретного пользователя
+      parameters:
+      - description: User UUID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_helpdesk_domain.Ticket'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить тикеты пользователя
+      tags:
+      - helpdesk
+    post:
+      consumes:
+      - application/json
+      description: Создает обращение в службу поддержки (жалоба, ДТП, забытые вещи)
+      parameters:
+      - description: Ticket Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.createTicketRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_helpdesk_domain.Ticket'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создать новый тикет
+      tags:
+      - helpdesk
+  /api/v1/helpdesk/tickets/resolve:
+    post:
+      consumes:
+      - application/json
+      description: Переводит тикет в статус RESOLVED
+      parameters:
+      - description: Ticket ID
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.resolveTicketRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_helpdesk_domain.Ticket'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Решить тикет (для оператора)
+      tags:
+      - helpdesk
+  /api/v1/media/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_media_domain.Media'
+      security:
+      - BearerAuth: []
+      summary: Upload a media file
+      tags:
+      - media
+  /api/v1/notifications:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает системные уведомления для текущего пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_notification_domain.NotificationHistoryItem'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: История системных уведомлений
+      tags:
+      - notifications
+  /api/v1/notifications/{id}/read:
+    put:
+      consumes:
+      - application/json
+      description: Помечает системное уведомление как прочитанное
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Пометить уведомление как прочитанное
+      tags:
+      - notifications
+  /api/v1/notifications/history:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает последние 100 сообщений между двумя пользователями
+      parameters:
+      - description: User 1 ID
+        in: query
+        name: user_id_1
+        required: true
+        type: string
+      - description: User 2 ID
+        in: query
+        name: user_id_2
+        required: true
+        type: string
+      - description: Ride ID (опционально)
+        in: query
+        name: ride_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_notification_domain.Message'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: История чата
+      tags:
+      - notifications
+  /api/v1/notifications/tokens:
+    post:
+      consumes:
+      - application/json
+      description: Сохраняет токен устройства для пуш-уведомлений
+      parameters:
+      - description: Данные токена
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.registerTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Регистрация FCM токена
+      tags:
+      - notifications
+  /api/v1/parcels:
+    post:
+      consumes:
+      - application/json
+      description: Создает новую посылку (Слепая логистика скрывает телефон)
+      parameters:
+      - description: Данные посылки
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.createParcelRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_parcel_domain.Parcel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создать посылку
+      tags:
+      - parcels
+  /api/v1/parcels/{id}/accept:
+    post:
+      consumes:
+      - application/json
+      description: Закрепляет посылку за водителем (Mock проверки премиум статуса).
+        Дешифрует телефон.
+      parameters:
+      - description: Parcel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Driver ID
+        in: query
+        name: driver_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_parcel_domain.Parcel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Только для премиум водителей
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Принять посылку водителем
+      tags:
+      - parcels
+  /api/v1/parcels/search:
+    get:
+      consumes:
+      - application/json
+      description: Ищет свободные посылки в радиусе (в метрах) для водителей. Телефон
+        скрыт.
+      parameters:
+      - description: ID водителя
+        in: query
+        name: driver_id
+        required: true
+        type: string
+      - description: Долгота водителя
+        in: query
+        name: lon
+        required: true
+        type: number
+      - description: Широта водителя
+        in: query
+        name: lat
+        required: true
+        type: number
+      - description: Радиус поиска в метрах (по умолчанию 5000)
+        in: query
+        name: radius
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_parcel_domain.Parcel'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Поиск посылок рядом
+      tags:
+      - parcels
+  /api/v1/rating:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Feedback Details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.SubmitFeedbackRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_rating_domain.Feedback'
+      security:
+      - BearerAuth: []
+      summary: Submit a new feedback rating
+      tags:
+      - rating
+  /api/v1/rides/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ride details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.PublishRideRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Publish a new ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/activate:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Activate a draft ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/book:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.BookRideRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_ride_domain.Booking'
+      security:
+      - BearerAuth: []
+      summary: Book seats in a ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/bookings/{booking_id}/accept:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Accept a pending negotiation
+      tags:
+      - rides
+  /api/v1/rides/{id}/bookings/{booking_id}/no-show:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Report a passenger no-show
+      tags:
+      - rides
+  /api/v1/rides/{id}/bookings/{booking_id}/reject:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Reject a pending negotiation
+      tags:
+      - rides
+  /api/v1/rides/{id}/cancel:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Cancel reason
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/http.CancelRideRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cancel a ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/complete:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Complete a ride
+      tags:
+      - rides
+  /api/v1/rides/{id}/start:
+    post:
+      parameters:
+      - description: Ride ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Start an active ride
+      tags:
+      - rides
+  /api/v1/rides/my:
+    get:
+      parameters:
+      - description: Role (driver or passenger)
+        enum:
+        - driver
+        - passenger
+        in: query
+        name: role
+        required: true
+        type: string
+      - description: Comma-separated statuses to filter by
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get user's rides or bookings
+      tags:
+      - rides
+  /api/v1/rides/search:
+    get:
+      parameters:
+      - description: Origin Latitude
+        format: float64
+        in: query
+        name: origin_lat
+        required: true
+        type: number
+      - description: Origin Longitude
+        format: float64
+        in: query
+        name: origin_lon
+        required: true
+        type: number
+      - description: Destination Latitude
+        format: float64
+        in: query
+        name: dest_lat
+        required: true
+        type: number
+      - description: Destination Longitude
+        format: float64
+        in: query
+        name: dest_lon
+        required: true
+        type: number
+      - description: Radius in KM
+        format: float64
+        in: query
+        name: radius_km
+        required: true
+        type: number
+      - description: Minimum available seats
+        in: query
+        name: min_seats
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.RideSearchResponse'
+            type: array
+      summary: Search rides by origin and destination
+      tags:
+      - rides
+  /api/v1/routing/route:
+    get:
+      consumes:
+      - application/json
+      description: Получает дистанцию, время и полилинию маршрута от внешнего картографического
+        движка
+      parameters:
+      - description: Origin Latitude
+        format: float64
+        in: query
+        name: origin_lat
+        required: true
+        type: number
+      - description: Origin Longitude
+        format: float64
+        in: query
+        name: origin_lon
+        required: true
+        type: number
+      - description: Destination Latitude
+        format: float64
+        in: query
+        name: dest_lat
+        required: true
+        type: number
+      - description: Destination Longitude
+        format: float64
+        in: query
+        name: dest_lon
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_routing_domain.Route'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Построение маршрута
+      tags:
+      - routing
+  /api/v1/telematics/eta:
+    get:
+      consumes:
+      - application/json
+      description: Рассчитывает время прибытия заданного водителя к заданной точке
+        (через формулу Гаверсинуса)
+      parameters:
+      - description: Driver ID
+        in: query
+        name: driver_id
+        required: true
+        type: string
+      - description: Target Latitude
+        format: float64
+        in: query
+        name: target_lat
+        required: true
+        type: number
+      - description: Target Longitude
+        format: float64
+        in: query
+        name: target_lon
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Расчет ETA
+      tags:
+      - telematics
+  /api/v1/telematics/nearby:
+    get:
+      consumes:
+      - application/json
+      description: Ищет водителей в заданном радиусе (в км) с помощью Redis GEORADIUS
+      parameters:
+      - description: Latitude
+        format: float64
+        in: query
+        name: lat
+        required: true
+        type: number
+      - description: Longitude
+        format: float64
+        in: query
+        name: lon
+        required: true
+        type: number
+      - description: Radius (km)
+        format: float64
+        in: query
+        name: radius
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_telematics_domain.NearbyDriver'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Поиск водителей рядом
+      tags:
+      - telematics
+  /api/v1/telematics/ping:
+    post:
+      consumes:
+      - application/json
+      description: Высоконагруженный эндпоинт для приема координат от водителей. Данные
+        мгновенно оседают в Redis и фоново батчатся в PostgreSQL.
+      parameters:
+      - description: Текущие координаты водителя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.pingRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Отправка GPS пинга
+      tags:
+      - telematics
+  /api/v1/users:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user profile with passenger role
+      parameters:
+      - description: Registration data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.RegisterPassengerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_user_domain.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register Passenger
+      tags:
+      - users
+  /api/v1/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Gets user profile details along with associated cars
+      parameters:
+      - description: User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get User Profile
+      tags:
+      - users
+  /api/v1/users/me:
+    get:
+      consumes:
+      - application/json
+      description: Gets user profile details for the currently authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get Current User Profile
+      tags:
+      - users
+  /api/v1/users/me/cars:
+    get:
+      consumes:
+      - application/json
+      description: Gets all cars for the currently authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_user_domain.Car'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get user cars
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Adds a new car to the currently authenticated user
+      parameters:
+      - description: Car data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateCarRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_user_domain.Car'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Add a new car
+      tags:
+      - users
+  /api/v1/users/profile:
+    put:
+      consumes:
+      - application/json
+      description: Updates user profile details like first name, last name, and gender
+      parameters:
+      - description: Update profile data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_hextec_yolyolakay-backend_internal_user_domain.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update User Profile
+      tags:
+      - users
+  /api/v1/users/upgrade:
+    post:
+      consumes:
+      - application/json
+      description: Upgrades a passenger to a driver by verifying identity via MyID
+        and adding car
+      produces:
+      - application/json
+      responses: {}
+      summary: Upgrade to Driver
+      tags:
+      - users
+  /ws:
+    get:
+      description: Открыть WebSocket соединение. Отправка сообщений и получение пушей.
+      parameters:
+      - description: JWT токен (альтернатива заголовку Authorization)
+        in: query
+        name: token
+        type: string
+      responses: {}
+      summary: WebSocket Endpoint (не тестируется через Swagger напрямую)
+      tags:
+      - notifications
+swagger: "2.0"

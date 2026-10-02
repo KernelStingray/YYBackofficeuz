@@ -1,0 +1,168 @@
+# Default values for yolyolakay-backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  environment: "production"
+  # DB connections (Cluster A and Cluster B/C)
+  dbAUrl: "postgresql://postgres:password@postgres-cluster-a:5432/yolyolakay?sslmode=disable"
+  dbBUrl: "postgresql://postgres:password@postgres-cluster-b:5432/yolyolakay?sslmode=disable"
+  dbCUrl: "postgresql://postgres:password@postgres-cluster-c:5432/yolyolakay?sslmode=disable"
+  # Redis connection
+  redisAddr: "redis:6379"
+  redisPass: ""
+  # RabbitMQ connection
+  rabbitmqUrl: "amqp://yolyolakay:secret@rabbitmq:5672/"
+  # S3 Connection
+  s3Endpoint: "minio:9000"
+  s3AccessKey: "minioadmin"
+  s3SecretKey: "minioadmin"
+  s3BucketName: "yolyolakay-media"
+
+# Default configuration for all services
+defaults:
+  image:
+    repository: "yolyolakay"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+  replicaCount: 1
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+  service:
+    type: ClusterIP
+
+# List of all microservices to deploy dynamically
+microservices:
+  - name: api-gateway
+    port: 8080
+    env:
+      - name: PORT
+        value: "8080"
+  - name: auth-service
+    port: 8081
+    env:
+      - name: AUTH_PORT
+        value: "8081"
+  - name: user-service
+    port: 8082
+    env:
+      - name: PORT
+        value: "8082"
+      - name: DB_A_URL
+        valueFromGlobal: dbAUrl
+  - name: parcel-service
+    port: 8085
+    env:
+      - name: PORT
+        value: "8085"
+      - name: DB_B_URL
+        valueFromGlobal: dbBUrl
+  - name: telematics-service
+    port: 8087
+    env:
+      - name: PORT
+        value: "8087"
+      - name: DB_B_URL
+        valueFromGlobal: dbBUrl
+      - name: REDIS_ADDR
+        valueFromGlobal: redisAddr
+  - name: billing-service
+    port: 8084
+    env:
+      - name: PORT
+        value: "8084"
+      - name: DB_C_URL
+        valueFromGlobal: dbCUrl
+      - name: RABBITMQ_URL
+        valueFromGlobal: rabbitmqUrl
+  - name: ride-service
+    port: 8083
+    env:
+      - name: PORT
+        value: "8083"
+      - name: DB_B_URL
+        valueFromGlobal: dbBUrl
+  - name: notification-service
+    port: 8086
+    env:
+      - name: PORT
+        value: "8086"
+      - name: DB_A_URL
+        valueFromGlobal: dbAUrl
+      - name: RABBITMQ_URL
+        valueFromGlobal: rabbitmqUrl
+  - name: routing-service
+    port: 8088
+    env:
+      - name: PORT
+        value: "8088"
+  - name: helpdesk-service
+    port: 8090
+    env:
+      - name: PORT
+        value: "8090"
+      - name: DB_A_URL
+        valueFromGlobal: dbAUrl
+  - name: analytics-service
+    port: 8091
+    env:
+      - name: PORT
+        value: "8091"
+      - name: DB_B_URL
+        valueFromGlobal: dbBUrl
+  - name: antifraud-service
+    port: 8089
+    env:
+      - name: PORT
+        value: "8089"
+      - name: DB_A_URL
+        valueFromGlobal: dbAUrl
+  - name: backoffice-service
+    port: 8092
+    env:
+      - name: PORT
+        value: "8092"
+      - name: DB_A_URL
+        valueFromGlobal: dbAUrl
+  - name: media-service
+    port: 8093
+    env:
+      - name: PORT
+        value: "8093"
+      - name: DB_A_URL
+        valueFromGlobal: dbAUrl
+      - name: S3_ENDPOINT
+        valueFromGlobal: s3Endpoint
+      - name: S3_ACCESS_KEY
+        valueFromGlobal: s3AccessKey
+      - name: S3_SECRET_KEY
+        valueFromGlobal: s3SecretKey
+      - name: S3_BUCKET_NAME
+        valueFromGlobal: s3BucketName
+  - name: rating-service
+    port: 8094
+    env:
+      - name: PORT
+        value: "8094"
+      - name: DB_B_URL
+        valueFromGlobal: dbBUrl
+      - name: RABBITMQ_URL
+        valueFromGlobal: rabbitmqUrl
+
+# Infrastructure components (Stateful)
+infra:
+  rabbitmq:
+    enabled: true
+    image: rabbitmq:3-management
+  redis:
+    enabled: true
+    image: redis:7-alpine
+  minio:
+    enabled: true
+    image: minio/minio:latest

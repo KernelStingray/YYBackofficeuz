@@ -1,0 +1,146 @@
+basePath: /
+definitions:
+  http.AddPaymentMethodRequest:
+    properties:
+      masked_pan:
+        type: string
+      provider:
+        type: string
+      token:
+        type: string
+    required:
+    - masked_pan
+    - provider
+    - token
+    type: object
+  http.GiftInjectRequest:
+    properties:
+      quota:
+        type: integer
+    required:
+    - quota
+    type: object
+  http.SubscribeDriverRequest:
+    properties:
+      payment_token_id:
+        type: string
+      plan_name:
+        type: string
+      promo_code:
+        type: string
+    required:
+    - plan_name
+    type: object
+host: localhost:8084
+info:
+  contact: {}
+  description: Billing, Payments and Subscriptions for Yolyolakay Platform.
+  title: Yolyolakay Billing Service API
+  version: "1.0"
+paths:
+  /api/v1/billing/admin/gift-inject:
+    post:
+      consumes:
+      - application/json
+      description: Creates an async task to add free parcels to all active premium
+        drivers
+      parameters:
+      - description: Gift quota details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.GiftInjectRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Inject free parcels to premium drivers
+      tags:
+      - Billing Admin
+  /api/v1/billing/cards:
+    get:
+      consumes:
+      - application/json
+      description: returns all active payment tokens for a user
+      produces:
+      - application/json
+      responses: {}
+      summary: Get saved cards for a user
+      tags:
+      - Billing
+    post:
+      consumes:
+      - application/json
+      description: Mocks the saving of a card token from Click/Payme
+      parameters:
+      - description: Card token details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.AddPaymentMethodRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Save a payment card token
+      tags:
+      - Billing
+  /api/v1/billing/pay:
+    post:
+      consumes:
+      - application/json
+      description: Deducts money using a saved card and activates a SaaS plan
+      parameters:
+      - description: Subscription payment details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/http.SubscribeDriverRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Pay for a subscription
+      tags:
+      - Billing
+  /api/v1/billing/plans:
+    get:
+      consumes:
+      - application/json
+      description: returns a static catalog of available subscription plans
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get available billing plans
+      tags:
+      - Billing
+  /api/v1/billing/subscription:
+    get:
+      consumes:
+      - application/json
+      description: returns active subscription details
+      produces:
+      - application/json
+      responses: {}
+      summary: Get active subscription for a driver
+      tags:
+      - Billing
+swagger: "2.0"
